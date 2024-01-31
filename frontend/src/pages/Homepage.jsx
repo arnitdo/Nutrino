@@ -11,8 +11,8 @@ export default function Homepage() {
     return (
         <>
             <div className={"w-screen min-h-screen flex flex-col justify-center items-center bg-lgreen"}>
-                <div style={{backgroundImage: `url(${hero_bg})`, backgroundClip: "border-box"}} className="h-screen w-screen bg-cover p-16 flex flex-row justify-center items-center">
-                    <div className="text-6xl font-bold flex flex-col gap-9 justify-center">
+                <div style={{backgroundImage: `url(${hero_bg})`, backgroundClip: "border-box"}} className="h-[9 0vh] w-screen bg-cover p-16 pt-0 flex flex-row justify-center items-center">
+                    <div className="text-6xl font-bold flex flex-col gap-8 justify-around">
                         <p>
                            <span className="underline font-extrabold">Nutrino</span> - Where Wellness 
                            </p>
