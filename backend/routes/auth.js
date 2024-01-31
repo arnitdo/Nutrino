@@ -89,4 +89,18 @@ router.get('/me', fetchuser, async (req, res) => {
     }
 })
 
+//ROUTE 4: onboard a user: PUT '/api/auth/onboard'
+router.put('/onboard', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { prefers, avoids, allergies, height, weight, age } = req.body;
+        const user = await User.findByIdAndUpdate(userId, {
+            prefers, avoids, allergies, height, weight, age
+        }, { new: true });
+        return res.status(200).json({ user });
+    } catch (error) {
+        return res.status(500).json({ error });
+    }
+})
+
 export default router;
