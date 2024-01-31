@@ -21,7 +21,7 @@ function NavBar() {
 							<Link to={"/"}>Home</Link>
 							<Link to={"/onboarding"}>Start</Link>
 							<Link to={"/recipe"}>Recipe&nbsp;</Link>
-							<Link to={"/productscanner"}>ProductScanner</Link>
+							<Link to={"/productscanner"}>Product Scanner</Link>
 							<Link to={"/community"}>Community</Link>
 						</div>
 						<Link
@@ -31,7 +31,7 @@ function NavBar() {
 							{pathname === "/login" ? "SIGN UP" : "LOG IN"}
 						</Link>
 						{auth ?
-							<Link to={"/me"}>
+							<Link to={"/profile"}>
 								<Button color={"primary"}>PROFILE</Button>
 							</Link>
 							:

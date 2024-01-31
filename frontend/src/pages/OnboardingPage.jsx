@@ -173,7 +173,7 @@ function OnboardingPage() {
 			</div>
 			<form className={"w-[80vw] flex flex-grow flex-col gap-8"} onSubmit={handleOnboard}>
 				<Paper>
-					<div className={"flex-grow flex flex-col gap-4 bg-lgreen p-4"}>
+					<div className={"flex-grow flex flex-col gap-4 bg-dgreen p-4"}>
 						<div className={"font-bold text-2xl"} ref={firstInput}>I prefer :</div>
 						<Input
 							grow
@@ -196,7 +196,7 @@ function OnboardingPage() {
 					</div>
 				</Paper>
 				<Paper>
-					<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
+					<div className={"flex-grow flex flex-col gap-4 bg-dorange p-4"}>
 						<div className={"font-bold text-2xl"}>I am allergic to :</div>
 						<Input
 							grow placeholder={"Enter ingredients you are allergic to"}
@@ -218,7 +218,7 @@ function OnboardingPage() {
 					</div>
 				</Paper>
 				<Paper>
-					<div className={"flex-grow flex flex-col gap-4 bg-lgreen p-4"}>
+					<div className={"flex-grow flex flex-col gap-4 bg-dgreen p-4"}>
 						<div className={"font-bold text-2xl"}>I avoid :</div>
 						<Input
 							grow
@@ -242,7 +242,7 @@ function OnboardingPage() {
 				</Paper>
 				<Paper>
 					<div className={"flex flex-row flex-grow"}>
-						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
+						<div className={"flex-grow flex flex-col gap-4 bg-dorange p-4"}>
 							<div className={"font-bold text-2xl"}>Height :</div>
 							<Input
 								grow
@@ -256,7 +256,7 @@ function OnboardingPage() {
 								})}
 							/>
 						</div>
-						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
+						<div className={"flex-grow flex flex-col gap-4 bg-dorange p-4"}>
 							<div className={"font-bold text-2xl"}>Weight :</div>
 							<Input
 								grow
@@ -270,7 +270,7 @@ function OnboardingPage() {
 								})}
 							/>
 						</div>
-						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
+						<div className={"flex-grow flex flex-col gap-4 bg-dorange p-4"}>
 							<div className={"font-bold text-2xl"}>Age :</div>
 							<Input
 								grow

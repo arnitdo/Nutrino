@@ -22,11 +22,14 @@ export default function Modal({active, setActive, children, title}) {
       role="dialog"
       aria-modal="true"
       className="fixed bottom-8 right-8 h-[440px] flex w-[330px] flex-col justify-center items-center"
+      style={{
+        pointerEvents: isVisible ? "auto" : "none"
+      }}
     >
       <div
         style={{
           opacity: isVisible ? '1' : '0',
-          visibility: isVisible ? 'visible' : 'hidden',
+          visibility: isVisible ? 'visible' : 'hidden'
         }}
         className="w-[330px] flex-grow flex flex-col items-center justify-center rounded-md border-2 border-black bg-white p-10 pt-12 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
       >
