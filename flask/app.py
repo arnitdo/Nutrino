@@ -20,7 +20,7 @@ def ingredientsfetch():
         image_file.save("temp_image.jpg")
         img = PIL.Image.open('temp_image.jpg')
         model = genai.GenerativeModel('gemini-pro-vision')
-        prompt = "Extract all the food ingredients from the following text using only hyphens as the separator between ingredients"
+        prompt = "Extract all the food ingredients from the following text without any special characters or numbers just , as the separator between ingredients"
         result = model.generate_content([prompt,img],stream=True)
         result.resolve()
         os.remove("temp_image.jpg")
@@ -37,7 +37,7 @@ def geminiocr():
         image_file.save("temp_image.jpg")
         img = PIL.Image.open('temp_image.jpg')
         model = genai.GenerativeModel('gemini-pro-vision')
-        result = model.generate_content([img,"Extract all the food ingredients from the image using only hyphens as the separator between ingredients"],stream=True)
+        result = model.generate_content([img,"Extract all the food ingredients from the image without any special characters or numbers just , as the separator between ingredients"],stream=True)
         result.resolve()
         os.remove("temp_image.jpg")
         return jsonify({'result': result.text})
