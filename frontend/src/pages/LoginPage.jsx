@@ -53,13 +53,14 @@ export default function LoginPage() {
 				<form onSubmit={(e) => handleLogin(e)}>
 					<div className={"flex flex-col gap-2"}>
 						<p className="font-bold mt-2">Email :</p>
-						<Input value={email} setValue={setemail} placeholder={"Enter Email : "} type={"email"}/>
+						<Input required value={email} setValue={setemail} placeholder={"Enter Email : "}
+							   type={"email"}/>
 						<p className="font-bold mt-2">Password :</p>
-						<Input
-							value={password}
-							setValue={setpassword}
-							placeholder={"Enter Password : "}
-							type={"password"}
+						<Input required
+							   value={password}
+							   setValue={setpassword}
+							   placeholder={"Enter Password : "}
+							   type={"password"}
 						/>
 						<div className="mt-4 justify-center flex">
 							<Button type={"submit"} color={"primary"}>

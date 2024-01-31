@@ -132,34 +132,114 @@ function OnboardingPage() {
 				<Paper>
 					<div className={"flex-grow flex flex-col gap-4 bg-lgreen p-4"}>
 						<div className={"font-bold text-2xl"} ref={firstInput}>I prefer :</div>
-						<Input grow placeholder={"Enter ingredients you prefer"}/>
+						<Input
+							grow
+							placeholder={"Enter ingredients you prefer"}
+							value={userProfile.prefers.reduce((prevFood, curFood, idx, arr) => {
+								if (idx === 0) {
+									return `${curFood}`
+								}
+								return `${prevFood}, ${curFood}`
+							}, "")}
+							setValue={(newVal) => {
+								setUserProfile((prevProfile) => {
+									return {
+										...prevProfile,
+										prefers: newVal.split(",").map((allPref) => allPref.trim())
+									}
+								})
+							}}
+						/>
 					</div>
 				</Paper>
 				<Paper>
 					<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
 						<div className={"font-bold text-2xl"}>I am allergic to :</div>
-						<Input grow placeholder={"Enter ingredients you are allergic to"}/>
+						<Input
+							grow placeholder={"Enter ingredients you are allergic to"}
+							value={userProfile.allergies.reduce((prevFood, curFood, idx, arr) => {
+								if (idx === 0) {
+									return `${curFood}`
+								}
+								return `${prevFood}, ${curFood}`
+							}, "")}
+							setValue={(newVal) => {
+								setUserProfile((prevProfile) => {
+									return {
+										...prevProfile,
+										allergies: newVal.split(",").map((allPref) => allPref.trim())
+									}
+								})
+							}}
+						/>
 					</div>
 				</Paper>
 				<Paper>
 					<div className={"flex-grow flex flex-col gap-4 bg-lgreen p-4"}>
 						<div className={"font-bold text-2xl"}>I avoid :</div>
-						<Input grow placeholder={"Enter ingredients you avoid"}/>
+						<Input
+							grow
+							placeholder={"Enter ingredients you avoid"}
+							value={userProfile.avoids.reduce((prevFood, curFood, idx, arr) => {
+								if (idx === 0) {
+									return `${curFood}`
+								}
+								return `${prevFood}, ${curFood}`
+							}, "")}
+							setValue={(newVal) => {
+								setUserProfile((prevProfile) => {
+									return {
+										...prevProfile,
+										avoids: newVal.split(",").map((allPref) => allPref.trim())
+									}
+								})
+							}}
+						/>
 					</div>
 				</Paper>
 				<Paper>
 					<div className={"flex flex-row flex-grow"}>
 						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
 							<div className={"font-bold text-2xl"}>Height :</div>
-							<Input grow placeholder={"Height (in cm)"}/>
+							<Input
+								grow
+								placeholder={"Height (in cm)"}
+								value={userProfile.height}
+								setValue={(newVal) => setUserProfile((prevProfile) => {
+									return {
+										...prevProfile,
+										height: newVal
+									}
+								})}
+							/>
 						</div>
 						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
 							<div className={"font-bold text-2xl"}>Weight :</div>
-							<Input grow placeholder={"Weight (in kg)"}/>
+							<Input
+								grow
+								placeholder={"Weight (in kg)"}
+								value={userProfile.weight}
+								setValue={(newVal) => setUserProfile((prevProfile) => {
+									return {
+										...prevProfile,
+										weight: newVal
+									}
+								})}
+							/>
 						</div>
 						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
 							<div className={"font-bold text-2xl"}>Age :</div>
-							<Input grow placeholder={"Age (in years)"}/>
+							<Input
+								grow
+								placeholder={"Age (in years)"}
+								value={userProfile.age}
+								setValue={(newVal) => setUserProfile((prevProfile) => {
+									return {
+										...prevProfile,
+										age: newVal
+									}
+								})}
+							/>
 						</div>
 					</div>
 				</Paper>

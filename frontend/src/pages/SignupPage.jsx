@@ -53,11 +53,12 @@ export default function SignupPage() {
 				<form onSubmit={(e) => handleSignup(e)}>
 					<div className={"flex flex-col gap-2"}>
 						<p className="font-bold mt-2">Name :</p>
-						<Input value={name} setValue={setname} placeholder={"Enter Name : "} type={"text"}/>
+						<Input required value={name} setValue={setname} placeholder={"Enter Name : "} type={"text"}/>
 						<p className="font-bold mt-2">Email :</p>
-						<Input value={email} setValue={setemail} placeholder={"Enter Email : "} type={"email"}/>
+						<Input required value={email} setValue={setemail} placeholder={"Enter Email : "}
+							   type={"email"}/>
 						<p className="font-bold mt-2">Password :</p>
-						<Input value={password} setValue={setpassword} placeholder={"Enter Password : "}
+						<Input required value={password} setValue={setpassword} placeholder={"Enter Password : "}
 							   type={"password"}/>
 						<div className="mt-4 justify-center flex">
 							<Button type={"submit"}>
