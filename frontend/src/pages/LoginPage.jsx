@@ -11,7 +11,7 @@ import OrangeBG from "../assets/orange_bg.jpeg"
 export default function LoginPage() {
 	const [email, setemail] = useState("")
 	const [password, setpassword] = useState("")
-	const {setToast, setMessage, setAuth, backend_url} = store()
+	const {setToast, setMessage, setAuth, setType, backend_url} = store()
 	const navigate = useNavigate()
 
 	const handleLogin = async (e) => {
@@ -28,6 +28,7 @@ export default function LoginPage() {
 			const data = await res.json()
 			if (data.error) {
 				setMessage(data.error)
+				setType("danger")
 				setToast(true)
 				return
 			}
@@ -35,6 +36,7 @@ export default function LoginPage() {
 			localStorage.setItem("auth-token", token)
 			setAuth(true)
 			setMessage("Login successful")
+			setType("success")
 			setToast(true)
 			navigate("/me")
 		} catch (error) {
