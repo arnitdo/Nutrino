@@ -27,7 +27,6 @@ function App() {
 					<Route path={"/recipe/:id"} element={<RecipeId />} />
 					<Route path={"/productscanner"} element={<ProductScanner />} />
 					<Route path={"/community"} element={<Community />} />
-					<Route path={"/chatbot"} element={<Chatbot />} />
 				</Routes>
 				<Footer/>
 			</BrowserRouter>

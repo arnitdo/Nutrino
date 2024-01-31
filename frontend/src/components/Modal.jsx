@@ -17,9 +17,6 @@ export default function Modal({ active, setActive, children }) {
       setIsVisible(true)
     }
   }, [active])
-
-  if (!active) return null
-
   return ReactDom.createPortal(
     <div
       role="dialog"
@@ -37,12 +34,6 @@ export default function Modal({ active, setActive, children }) {
           <MdClose className="absolute right-3 top-3 h-6 w-6 bg-dgreen" />
         </button>
         {children}
-        <button
-          className="mt-5 cursor-pointer rounded-md border-2 border-black bg-white px-4 py-1.5 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
-          onClick={closeModal}
-        >
-          Ok
-        </button>
       </div>
     </div>,
     document.getElementById('modal') ,

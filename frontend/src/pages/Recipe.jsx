@@ -51,7 +51,7 @@ export default function Recipe() {
       })
       const data = await res.json()
       console.log(data);
-      const arr = data.result.split(":")[1].replace(/[\.,\*\-\s\d]+/gi, " ").split(" ")
+      const arr = Array.from(data.result.split(",").map(i=>i.trim()))
       console.log({ arr })
       setIngredients(arr)
       handleIngredientSearch(arr)

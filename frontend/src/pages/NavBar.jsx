@@ -23,7 +23,6 @@ function NavBar() {
 							<Link to={"/recipe"}>Recipe&nbsp;</Link>
 							<Link to={"/productscanner"}>ProductScanner</Link>
 							<Link to={"/community"}>Community</Link>
-							<Link to={"/chatbot"}>ChatBot</Link>
 						</div>
 						<Link
 							to={pathname === "/login" ? "/signup" : "/login"}
