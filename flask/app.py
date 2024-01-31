@@ -3,6 +3,10 @@ import cv2
 import easyocr
 import numpy as np
 from transformers import pipeline
+import google.generativeai as genai
+import PIL
+
+genai.configure(api_key="AIzaSyAMBoESvU1tZn_3U1eWtp_9HRDbVf3XQ5c")
 
 app = Flask(__name__)
 reader = easyocr.Reader(['en'], gpu=False)
@@ -56,5 +60,21 @@ def imagecaptioning():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/geminiimagecaptioning', methods=['POST'])
+def geminiimagecaptioning():
+    try:
+        import os
+        image_file = request.files['image']
+        image_file.save("temp_image.jpg")
+        model = genai.GenerativeModel('gemini-pro-vision')
+        img = PIL.Image.open('temp_image.jpg')
+        result = model.generate_content(img)
+        result.resolve()
+        os.remove("temp_image.jpg")
+        return jsonify({'result': result.text})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+    
 if __name__ == '__main__':
     app.run(debug=True)
