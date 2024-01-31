@@ -137,28 +137,28 @@ function OnboardingPage() {
 				</Paper>
 				<Paper>
 					<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
-						<div className={"font-bold text-2xl"} ref={firstInput}>I am allergic to :</div>
+						<div className={"font-bold text-2xl"}>I am allergic to :</div>
 						<Input grow placeholder={"Enter ingredients you are allergic to"}/>
 					</div>
 				</Paper>
 				<Paper>
 					<div className={"flex-grow flex flex-col gap-4 bg-lgreen p-4"}>
-						<div className={"font-bold text-2xl"} ref={firstInput}>I avoid :</div>
+						<div className={"font-bold text-2xl"}>I avoid :</div>
 						<Input grow placeholder={"Enter ingredients you avoid"}/>
 					</div>
 				</Paper>
 				<Paper>
 					<div className={"flex flex-row flex-grow"}>
 						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
-							<div className={"font-bold text-2xl"} ref={firstInput}>Height :</div>
+							<div className={"font-bold text-2xl"}>Height :</div>
 							<Input grow placeholder={"Height (in cm)"}/>
 						</div>
 						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
-							<div className={"font-bold text-2xl"} ref={firstInput}>Weight :</div>
+							<div className={"font-bold text-2xl"}>Weight :</div>
 							<Input grow placeholder={"Weight (in kg)"}/>
 						</div>
 						<div className={"flex-grow flex flex-col gap-4 bg-lorange p-4"}>
-							<div className={"font-bold text-2xl"} ref={firstInput}>Age :</div>
+							<div className={"font-bold text-2xl"}>Age :</div>
 							<Input grow placeholder={"Age (in years)"}/>
 						</div>
 					</div>
