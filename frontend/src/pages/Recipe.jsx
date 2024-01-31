@@ -57,75 +57,81 @@ export default function Recipe() {
     }, 'image/jpeg');
   };
 
-    // Initialize camera on component mount
-    React.useEffect(() => {
-      getMedia();
-    }, []);
+  // Initialize camera on component mount
+  React.useEffect(() => {
+    getMedia();
+  }, []);
 
-    const handleRecipeSearch = async () => {
-      if(dish===""){
-        return
-      }
-      const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?query=${dish}&apiKey=${api}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      const data = await res.json()
-      setrecipes(data.results)
-      
+  const handleRecipeSearch = async () => {
+    if (dish === "") {
+      return
     }
-    return (
-      <div className=' flex w-full flex-col py-6'>
-        <div className=' flex w-full flex-row justify-between items-center px-12 py-6'>
-        <h1 className=' text-3xl font-bold py-2 '> Scan your ingredients here</h1>
-          <div className=' flex flex-row gap-2 justify-center items-center'>
-          <Input placeholder='Search for dishes here' value={dish} setValue={setDish} />
-          <Button onClick={()=>{handleRecipeSearch()}}>Search</Button>
+    const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?query=${dish}&apiKey=${api}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json()
+    setrecipes(data.results)
+
+  }
+  return (
+    <div className=' flex w-full flex-col bg-lorange' >
+      <div className={`flex flex-row p-8 ${recipes.length === 0 ? "bg-lorange justify-center" : "justify-between bg-black"} items-start w-full`}>
+        <div className="flex flex-col gap-4">
+        {capturedFrame ? (
+            null
+          ) : (
+            <h1 className={`text-3xl font-bold flex-grow py-4 text-center ${recipes.length === 0 ? "text-black" : "text-white"}`}> SCAN YOUR INGREDIENTS HERE</h1>
+          )
+        }
+          {capturedFrame ? (
+            <img className=' rounded-lg' src={capturedFrame} alt="Captured Frame" />
+          ) : (
+            <video className=' rounded-lg' ref={videoRef} autoPlay playsInline />
+          )}
+          <div className="flex flex-row w-full justify-between gap-8 items-center">
+            <Button color='secondary' grow onClick={switchCamera}>Switch Camera</Button>
+            <Button color='primary' grow onClick={captureFrame}>Capture Frame</Button>
           </div>
         </div>
-          <div className='flex flex-row justify-between items-center w-full'>
-            <div className="flex flex-col gap-5 px-8">
-            {capturedFrame ? (
-          <img className=' rounded-lg' src={capturedFrame} alt="Captured Frame" />
-        ) : (
-          <video className=' rounded-lg' ref={videoRef} autoPlay playsInline />
-        )}
-        <div className="flex flex-row w-full justify-between items-center">
-        <Button color='secondary' onClick={switchCamera}>Switch Camera</Button>
-        <Button color='primary' onClick={captureFrame}>Capture Frame</Button>
-        </div>
-        </div>
-        <div className=' flex flex-col gap-5 w-full'>
-          <h1 className='font-extrabold text-2xl'>{capturedFrame?"This image consists of":"Capture to extract ingredients"}</h1>
+        {capturedFrame ? (
+          <div className=' flex flex-col flex-grow items-start justify-between gap-4 p-8'>
+          <h1 className={`font-extrabold ${recipes.length === 0 ? "text-black" : "text-white"} text-4xl`}>{capturedFrame ? "This image consists of" : ""}</h1>
           <div className=' flex flex-col gap-2'>
-            <ul>
-          {capturedFrame&&ingredients.length===0?
-  <>
-  <Loader/>
-  </>
-          :
-          ingredients.map((ingredient, index) => {
-            return <li className='font-bold text-xl' key={index}>{ingredient}</li>
-          })}
-          </ul>
+            {capturedFrame && ingredients.length === 0 ?
+                (
+                  <Loader />
+                )
+                :
+                (
+                  <ul>
+                    {
+                      ingredients.map((ingredient, index) => {
+                        return <li className='font-bold text-xl' key={index}>{ingredient}</li>
+                      })
+                    }
+                  </ul>
+                )
+              }
           </div>
         </div>
+        ) : (null)}
       </div>
-      <div className=' w-full grid grid-cols-4 gap-4 py-8'>
+      <div className={recipes.length == 0 ? "hidden" : ' w-full grid grid-cols-5 gap-7 py-10'}>
         {
           recipes.map((recipe, index) => {
             return (
               <Link to={`/recipe/${recipe.id}?name=${recipe.title}&image=${recipe.image}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
-              <ImageCard imageUrl={recipe.image} key={index}>
-                {recipe.title}
-              </ImageCard>
+                <ImageCard imageUrl={recipe.image} key={index}>
+                  {recipe.title}
+                </ImageCard>
               </Link>
             )
           })
         }
       </div>
-      </div>
-    )
-  }
+    </div>
+  )
+}
