@@ -41,6 +41,7 @@ export default function SignupPage() {
 
 		} catch (error) {
 			console.log(error)
+			setType("danger")
 			setMessage("Something went wrong")
 			setToast(true)
 		}

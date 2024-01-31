@@ -25,25 +25,27 @@ function NavBar() {
 							<Link to={"/community"}>Community</Link>
 							<Link to={"/chatbot"}>ChatBot</Link>
 						</div>
-						<Link to={pathname === "/login" ? "/signup" : "/login"}
-							  className={"text-green-600 block lg:hidden"}>
+						<Link
+							to={pathname === "/login" ? "/signup" : "/login"}
+							className={"text-green-600 block lg:hidden"}
+						>
 							{pathname === "/login" ? "SIGN UP" : "LOG IN"}
 						</Link>
 						{auth ?
-						<Link to={"/me"}>
-							<Button color={"primary"}>PROFILE</Button>
-						</Link>
-						:
-						<>
-						<div className={"flex-row gap-4 hidden lg:flex"}>
-							<Link to={"/login"}>
-								<Button color={"empty"}>LOG IN</Button>
+							<Link to={"/me"}>
+								<Button color={"primary"}>PROFILE</Button>
 							</Link>
-							<Link to={"/signup"}>
-								<Button color={"primary"}>SIGN UP</Button>
-							</Link>
-						</div>
-						</>}
+							:
+							<>
+								<div className={"flex-row gap-4 hidden lg:flex"}>
+									<Link to={"/login"}>
+										<Button color={"empty"}>LOG IN</Button>
+									</Link>
+									<Link to={"/signup"}>
+										<Button color={"primary"}>SIGN UP</Button>
+									</Link>
+								</div>
+							</>}
 					</nav>
 				</div>
 			</div>

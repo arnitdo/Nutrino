@@ -4,7 +4,6 @@ import Card from "../components/Card";
 import Input from "../components/Input";
 import {Link, useNavigate} from "react-router-dom";
 import store from "../lib/zustand";
-
 import OrangeBG from "../assets/orange_bg.jpeg"
 
 
@@ -41,6 +40,7 @@ export default function LoginPage() {
 			navigate("/me")
 		} catch (error) {
 			setMessage("Something went wrong")
+			setType("danger")
 			setToast(true)
 		}
 	}
