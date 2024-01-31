@@ -5,10 +5,11 @@ const BUTTON_COLOR_MAPPING = {
   empty: "bg-none"
 }
 
-export default function Button({ children, onClick, color="primary", type, grow }) {
+export default function Button({ children, onClick, color="primary", type, grow, disabled }) {
   return (
     <button
       type={type}
+      disabled={disabled}
       role="button"
       aria-label={"Click to perform an action"}
       onClick={onClick}

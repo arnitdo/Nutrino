@@ -54,6 +54,7 @@ export default function Recipe() {
       const arr = data.result.split(":")[1].replace(/[\.,\*\-\s\d]+/gi, " ").split(" ")
       console.log({ arr })
       setIngredients(arr)
+      handleIngredientSearch(arr)
     }, 'image/jpeg');
   };
 
@@ -61,6 +62,21 @@ export default function Recipe() {
   React.useEffect(() => {
     getMedia();
   }, []);
+
+  const handleIngredientSearch = async (ingredients) => {
+    if(ingredients.length===0){
+      return
+    }
+    const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${api}&includeIngredients=${ingredients.join(",")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json()
+    console.log(data);
+    setrecipes(data.results)
+  }
 
   const handleRecipeSearch = async () => {
     if (dish === "") {
@@ -134,4 +150,4 @@ export default function Recipe() {
       </div>
     </div>
   )
-}
+} 
