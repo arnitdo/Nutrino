@@ -44,14 +44,19 @@ export default function ProductScanner() {
       setCapturedFrame(URL.createObjectURL(blob));
       const formData = new FormData();
       formData.append('image', blob);
-      const res = await fetch(`http://127.0.0.1:5000/ingredientsfetch`,{
+      const res = await fetch(`http://127.0.0.1:5000/geminiocr`,{
         method: "POST",
         body: formData
       })
       const data = await res.json()
       console.log(data);
-      const arr = data.result.replace(/ /g, "").split(",")
+      if(data.result.includes(",")){
+        const arr = data.result.split(",")
+        setIngredients(arr)
+      }else{
+      const arr = data.result.replace(/-/g,"").split("\n")
       setIngredients(arr)
+      }
     }, 'image/jpeg');
   };
 
@@ -79,7 +84,19 @@ export default function ProductScanner() {
       </div>
       <div className=' flex flex-col gap-5 w-full'>
         <h1 className='font-extrabold text-2xl'>{capturedFrame?"This image consists of":"Capture to extract ingredients"}</h1>
-    </div>
+        <div className=' flex flex-col gap-2'>
+          <ul>
+        {capturedFrame&&ingredients.length===0?
+<>
+<Loader/>
+</>
+        :
+        ingredients.map((ingredient, index) => {
+          return <li className='font-bold text-xl' key={index}>{ingredient}</li>
+        })}
+        </ul>
+        </div>
+      </div>
     </div>
     </div>
   )
