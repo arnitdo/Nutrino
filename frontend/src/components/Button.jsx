@@ -2,7 +2,8 @@ const BUTTON_COLOR_MAPPING = {
   primary: "bg-dgreen",
   secondary: "bg-lgreen",
   danger: "bg-lorange",
-  empty: "bg-none"
+  empty: "bg-none",
+  lavender: "bg-lavender"
 }
 
 export default function Button({ children, onClick, color="primary", type, grow, disabled }) {

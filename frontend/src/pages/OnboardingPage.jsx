@@ -106,7 +106,7 @@ function OnboardingPage() {
 		>
 			<div className={"w-[80vw]"}>
 				<Paper>
-					<div className={"bg-lgreen flex flex-col lg:flex-row justify-between items-center p-8 text-bold"}>
+					<div className={"bg-lavender flex flex-col lg:flex-row justify-between items-center p-8 text-bold"}>
 						<div className={"text-4xl"}>
 							Let&apos;s Get Started
 						</div>
@@ -286,7 +286,7 @@ function OnboardingPage() {
 						</div>
 					</div>
 				</Paper>
-				<Button type={"submit"}>Save Preferences</Button>
+				<Button color="lavender" type={"submit"}>Save Preferences</Button>
 			</form>
 		</div>
 	)
