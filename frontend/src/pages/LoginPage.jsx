@@ -11,12 +11,12 @@ import OrangeBG from "../assets/orange_bg.jpeg"
 export default function LoginPage() {
 	const [email, setemail] = useState("")
 	const [password, setpassword] = useState("")
-	const {setToast, setMessage, setAuth} = store()
+	const {setToast, setMessage, setAuth, backend_url} = store()
 	const navigate = useNavigate()
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
-		const url = import.meta.env.VITE_BACKEND_URL
+		const url = backend_url
 		try {
 			const res = await fetch(`${url}/auth/login`, {
 				method: "POST",
@@ -47,7 +47,7 @@ export default function LoginPage() {
 			style={{backgroundImage: `url(${OrangeBG})`}}
 			className={"w-screen flex-grow flex justify-center items-center"}
 		>
-			<Card heading={"LOGIN"}>
+			<Card heading={"LOGIN"} headingColor={"bg-dgreen"}>
 				<form onSubmit={(e) => handleLogin(e)}>
 					<div className={"flex flex-col gap-2"}>
 						<p className="font-bold mt-2">Email :</p>

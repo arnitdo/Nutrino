@@ -5,10 +5,12 @@ import numpy as np
 from transformers import pipeline
 import google.generativeai as genai
 import PIL
+from flask_cors import CORS
 
 genai.configure(api_key="AIzaSyAMBoESvU1tZn_3U1eWtp_9HRDbVf3XQ5c")
 
 app = Flask(__name__)
+CORS(app)
 reader = easyocr.Reader(['en'], gpu=False)
 
 def process_image(image_path):
@@ -88,6 +90,7 @@ def ingredientsfetch():
         os.remove("temp_image.jpg")
         return jsonify({'result': result.text})
     except Exception as e:
+        print(str(e))
         return jsonify({'error': str(e)}), 500
 
 @app.route('/recipemaker', methods=['POST'])

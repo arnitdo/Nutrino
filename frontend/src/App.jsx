@@ -5,6 +5,7 @@ import NavBar from "./pages/NavBar.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import Hello from "./pages/Hello.jsx";
 import Recipe from "./pages/Recipe.jsx";
+import Homepage from "./pages/Homepage.jsx";
 
 function App() {
     return (
@@ -12,12 +13,13 @@ function App() {
 			<BrowserRouter>
 				<NavBar />
 				<Routes>
+					<Route path={"/"} index element={<Homepage />} />
 					<Route path={"/signup"} element={<SignupPage />} />
 					<Route path={"/login"} element={<LoginPage />} />
 					<Route path={"/onboarding"} element={<OnboardingPage />} />
 					<Route path={"/me"} element={<Hello />} />
 					<Route path={"/recipe"} element={<Recipe />} />
-			</Routes>
+				</Routes>
 			</BrowserRouter>
 		</div>
     )
