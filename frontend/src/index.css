@@ -5,3 +5,8 @@
 body {
     overflow-x: clip;
 }
+
+/* Set the background color for the entire scrollbar */
+::-webkit-scrollbar {
+    background-color: black;
+}
