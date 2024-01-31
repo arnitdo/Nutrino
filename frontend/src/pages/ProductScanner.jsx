@@ -60,14 +60,6 @@ export default function ProductScanner() {
 	// Initialize camera on component mount
 	React.useEffect(() => {
 		getMedia();
-
-		const vidRef = videoRef.current
-
-		return () => {
-			vidRef.getTracks().forEach((trackObj) => {
-				trackObj.stop()
-			})
-		}
 	}, []);
 
 	return (

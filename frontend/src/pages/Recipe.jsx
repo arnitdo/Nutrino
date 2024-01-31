@@ -60,7 +60,8 @@ export default function Recipe() {
       })
       const data = await res.json()
       console.log(data);
-      const arr = data.result.replace(/ /g, "").split(",")
+      const arr = data.result.split(":")[1].replace(/[\.,\*\-\s\d]+/gi, " ").split(" ")
+      console.log({arr})
       setIngredients(arr)
     }, 'image/jpeg');
   };
