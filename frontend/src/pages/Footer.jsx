@@ -15,9 +15,9 @@ export default function Footer(){
                     <Link to={"/login"}>Login</Link>
                     </div>
                     <div className='flex flex-col text-white gap-5 font-bold text-xl'>
-                    <Link to={"/"}>page 3</Link>
-                    <Link to={"/signup"}>page 4</Link>
-                    <Link to={"/login"}>page 5</Link>
+                    <Link to={"/recipe"}>Recipe</Link>
+                    <Link to={"/productscanner"}>Product Scanner</Link>
+                    <Link to={"/community"}>Community</Link>
                     </div>
                 <Newsletter />
             </div>

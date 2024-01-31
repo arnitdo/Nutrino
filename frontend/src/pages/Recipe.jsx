@@ -6,74 +6,56 @@
   import ImageCard from '../components/ImageCard';
   import { Link } from 'react-router-dom';
 
-  export default function Recipe() {
-    const videoRef = useRef(null);
-    const [rearCamera, setRearCamera] = useState(true);
-    const [capturedFrame, setCapturedFrame] = useState(null);
-    const [ingredients, setIngredients] = useState([])
-    const [dish, setDish] = useState("")
-    const [recipes,setrecipes] = useState([{"id":638245,"title":"Chicken Pasta With Anchovy Rosemary Sauce","image":"https://spoonacular.com/recipeImages/638245-312x231.jpg","imageType":"jpg"},
-    {"id":638236,"title":"Chicken Pasta Primavera - Flower Patch Farmgirl Style","image":"https://spoonacular.com/recipeImages/638236-312x231.jpg","imageType":"jpg"},
-    {"id":606953,"title":"Cajun Chicken Pasta","image":"https://spoonacular.com/recipeImages/606953-312x231.jpg","imageType":"jpg"},
-    {"id":1096054,"title":"Spicy Chicken Pasta and Peas with Sun-Dried Tomato Sauce","image":"https://spoonacular.com/recipeImages/1096054-312x231.jpg","imageType":"jpg"},
-    {"id":645651,"title":"Grilled Chicken Pasta With Gorgonzola Walnut Cream Sauce","image":"https://spoonacular.com/recipeImages/645651-312x231.jpg","imageType":"jpg"},
-    {"id":637923,"title":"Chicken and Penne Pasta With Garlic Rosemary Sauce","image":"https://spoonacular.com/recipeImages/637923-312x231.jpg","imageType":"jpg"},
-    {"id":654901,"title":"Pasta With Chicken and Broccoli","image":"https://spoonacular.com/recipeImages/654901-312x231.jpg","imageType":"jpg"},
-    {"id":654913,"title":"Pasta With Chicken and Mushrooms","image":"https://spoonacular.com/recipeImages/654913-312x231.jpg","imageType":"jpg"},
-    {"id":638235,"title":"Chicken Parmesan With Pasta","image":"https://spoonacular.com/recipeImages/638235-312x231.jpg","imageType":"jpg"},
-    {"id":655582,"title":"Penne Pasta With Chicken And Mushrooms","image":"https://spoonacular.com/recipeImages/655582-312x231.jpg","imageType":"jpg"}])
-    const {backend_url, api} = store()
-    const getMedia = async () => {
-      try {
-        const constraints = {
-          video: {
-            facingMode: rearCamera ? 'environment' : 'user',
-          },
-        };
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        videoRef.current.srcObject = stream;
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-      }
-    };
+export default function Recipe() {
+  const videoRef = useRef(null);
+  const [rearCamera, setRearCamera] = useState(true);
+  const [capturedFrame, setCapturedFrame] = useState(null);
+  const [ingredients, setIngredients] = useState([])
+  const [dish, setDish] = useState("")
+  const [recipes, setrecipes] = useState([])
+  const { backend_url, api } = store()
+  const getMedia = async () => {
+    try {
+      const constraints = {
+        video: {
+          facingMode: rearCamera ? 'environment' : 'user',
+        },
+      };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      videoRef.current.srcObject = stream;
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+    }
+  };
 
     const switchCamera = () => {
       setRearCamera(!rearCamera);
       getMedia();
     };
 
-    const captureFrame = () => {
-      const canvas = document.createElement('canvas');
-      const video = videoRef.current;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob(async(blob) => {
-        // Handle the captured blob as needed (e.g., upload to server)
-        setCapturedFrame(URL.createObjectURL(blob));
-        const formData = new FormData();
-        formData.append('image', blob);
-        const res = await fetch(`http://127.0.0.1:5000/ingredientsfetch`,{
-          method: "POST",
-          body: formData
-        })
-        const data = await res.json()
-        console.log(data);
-        const arr = data.result.match(/[a-zA-Z\s]+/g);
-        if (arr) {
-          const capitalizedArr = arr.map(word => {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-          });
-        
-          console.log({ capitalizedArr });
-          setIngredients(capitalizedArr);
-        }
-        else{
-          setIngredients(["No ingredients found"])
-        }
-      }, 'image/jpeg');
-    };
+  const captureFrame = () => {
+    const canvas = document.createElement('canvas');
+    const video = videoRef.current;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(async (blob) => {
+      // Handle the captured blob as needed (e.g., upload to server)
+      setCapturedFrame(URL.createObjectURL(blob));
+      const formData = new FormData();
+      formData.append('image', blob);
+      const res = await fetch(`http://127.0.0.1:5000/ingredientsfetch`, {
+        method: "POST",
+        body: formData
+      })
+      const data = await res.json()
+      console.log(data);
+      const arr = data.result.split(":")[1].replace(/[\.,\*\-\s\d]+/gi, " ").split(" ")
+      console.log({ arr })
+      setIngredients(arr)
+    }, 'image/jpeg');
+  };
 
     // Initialize camera on component mount
     React.useEffect(() => {
