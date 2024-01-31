@@ -30,19 +30,88 @@ export default function RecipeId() {
     const options = {
         animationEnabled: true,
         exportEnabled: true,
-        theme: "light2", //"light1", "dark1", "dark2"
+        theme: "dark2", // "light1", "dark1", "dark2"
         title:{
-            text: "Simple Column Chart with Index Labels"
-        },
-        axisY: {
-            includeZero: true
+            text: "Taste Analysis"
         },
         data: [{
-            type: "column", //change type to bar, line, area, pie, etc
-            //indexLabel: "{y}", //Shows y value on all Data Points
-            indexLabelFontColor: "#5A5757",
-            indexLabelPlacement: "outside",
+            type: "bar",
+            indexLabel: "{label}: {y}%",		
+            startAngle: -90,
             dataPoints: Array.from(Object.keys(taste).map((key) => ({y: taste[key], label: key})))
+        }]
+    }
+
+    
+    const [nutrients, setNutrients] = useState([
+        {
+            "name": "Calories",
+            "amount": 316.49,
+            "unit": "kcal",
+            "percentOfDailyNeeds": 15.82
+        },
+        {
+            "name": "Fat",
+            "amount": 12.09,
+            "unit": "g",
+            "percentOfDailyNeeds": 18.6
+        },
+        {
+            "name": "Saturated Fat",
+            "amount": 3.98,
+            "unit": "g",
+            "percentOfDailyNeeds": 24.88
+        },
+        {
+            "name": "Carbohydrates",
+            "amount": 49.25,
+            "unit": "g",
+            "percentOfDailyNeeds": 16.42
+        },
+        {
+            "name": "Net Carbohydrates",
+            "amount": 46.76,
+            "unit": "g",
+            "percentOfDailyNeeds": 17.0
+        },
+        {
+            "name": "Sugar",
+            "amount": 21.98,
+            "unit": "g",
+            "percentOfDailyNeeds": 24.42
+        },
+        {
+            "name": "Cholesterol",
+            "amount": 1.88,
+            "unit": "mg",
+            "percentOfDailyNeeds": 0.63
+        },
+        {
+            "name": "Sodium",
+            "amount": 279.1,
+            "unit": "mg",
+            "percentOfDailyNeeds": 12.13
+        },
+        {
+            "name": "Protein",
+            "amount": 3.79,
+            "unit": "g",
+            "percentOfDailyNeeds": 7.57
+        }
+    ])
+
+    const options2 = {
+        animationEnabled: true,
+        exportEnabled: true,
+        theme: "dark2", // "light1", "dark1", "dark2"
+        title:{
+            text: "Nutrition Analysis"
+        },
+        data: [{
+            type: "pie",
+            indexLabel: "{label}: {y}mg",		
+            startAngle: -90,
+            dataPoints: Array.from(nutrients.map((n) => ({y: n.amount, label: n.name})))
         }]
     }
 
@@ -270,6 +339,11 @@ export default function RecipeId() {
             const res2 = await fetch(`https://api.spoonacular.com/recipes/${id}/tasteWidget.json?apiKey=${api}`)
             const data2 = await res2.json()
             setTaste(data2)
+
+            const res3 = await fetch(`https://api.spoonacular.com/recipes/${id}/nutritionWidget.json?apiKey=${api}`)
+            const data3 = await res3.json()
+            console.log(data3);
+
         }
         //https://api.spoonacular.com/recipes/{id}/tasteWidget.json
 
@@ -337,6 +411,10 @@ export default function RecipeId() {
         </div>
         <div className=' flex w-full p-3'>
         <CanvasJSChart options = {options} 
+				/* onRef={ref => this.chart = ref} */
+				/* containerProps={{ width: '100%', height: '300px' }} */
+			/>
+            <CanvasJSChart options = {options2} 
 				/* onRef={ref => this.chart = ref} */
 				/* containerProps={{ width: '100%', height: '300px' }} */
 			/>

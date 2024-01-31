@@ -12,7 +12,16 @@ export default function Recipe() {
   const [capturedFrame, setCapturedFrame] = useState(null);
   const [ingredients, setIngredients] = useState([])
   const [dish, setDish] = useState("")
-  const [recipes, setrecipes] = useState([])
+  const [recipes, setrecipes] = useState([{"id":638245,"title":"Chicken Pasta With Anchovy Rosemary Sauce","image":"https://spoonacular.com/recipeImages/638245-312x231.jpg","imageType":"jpg"},
+  {"id":638236,"title":"Chicken Pasta Primavera - Flower Patch Farmgirl Style","image":"https://spoonacular.com/recipeImages/638236-312x231.jpg","imageType":"jpg"},
+  {"id":606953,"title":"Cajun Chicken Pasta","image":"https://spoonacular.com/recipeImages/606953-312x231.jpg","imageType":"jpg"},
+  {"id":1096054,"title":"Spicy Chicken Pasta and Peas with Sun-Dried Tomato Sauce","image":"https://spoonacular.com/recipeImages/1096054-312x231.jpg","imageType":"jpg"},
+  {"id":645651,"title":"Grilled Chicken Pasta With Gorgonzola Walnut Cream Sauce","image":"https://spoonacular.com/recipeImages/645651-312x231.jpg","imageType":"jpg"},
+  {"id":637923,"title":"Chicken and Penne Pasta With Garlic Rosemary Sauce","image":"https://spoonacular.com/recipeImages/637923-312x231.jpg","imageType":"jpg"},
+  {"id":654901,"title":"Pasta With Chicken and Broccoli","image":"https://spoonacular.com/recipeImages/654901-312x231.jpg","imageType":"jpg"},
+  {"id":654913,"title":"Pasta With Chicken and Mushrooms","image":"https://spoonacular.com/recipeImages/654913-312x231.jpg","imageType":"jpg"},
+  {"id":638235,"title":"Chicken Parmesan With Pasta","image":"https://spoonacular.com/recipeImages/638235-312x231.jpg","imageType":"jpg"},
+  {"id":655582,"title":"Penne Pasta With Chicken And Mushrooms","image":"https://spoonacular.com/recipeImages/655582-312x231.jpg","imageType":"jpg"}])
   const { backend_url, api } = store()
   const getMedia = async () => {
     try {
