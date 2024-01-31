@@ -3,15 +3,17 @@ import { useLocation, useParams } from 'react-router-dom'
 import store from '../lib/zustand'
 import StepsAccordion from '../components/StepsAccordian'
 import Button from '../components/Button'
+import Paper from '../components/Paper'
 import CanvasJSReact from '@canvasjs/react-charts';
+import { GiSpeaker } from "react-icons/gi";
 //var CanvasJSReact = require('@canvasjs/react-charts');
- 
+
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function RecipeId() {
-    const {id} = useParams()
-    const {api} = store()
+    const { id } = useParams()
+    const { api } = store()
     const search = useLocation().search
     const query = new URLSearchParams(search)
     const name = query.get('name')
@@ -30,19 +32,20 @@ export default function RecipeId() {
     const options = {
         animationEnabled: true,
         exportEnabled: true,
-        theme: "dark2", // "light1", "dark1", "dark2"
-        title:{
+        theme: "light1", // "light1", "dark1", "dark2"
+        backgroundColor: "transparent",
+        title: {
             text: "Taste Analysis"
         },
         data: [{
             type: "bar",
-            indexLabel: "{label}: {y}%",		
+            indexLabel: "{label}: {y}%",
             startAngle: -90,
-            dataPoints: Array.from(Object.keys(taste).map((key) => ({y: taste[key], label: key})))
+            dataPoints: Array.from(Object.keys(taste).map((key) => ({ y: taste[key], label: key })))
         }]
     }
 
-    
+
     const [nutrients, setNutrients] = useState([
         {
             "name": "Calories",
@@ -103,15 +106,16 @@ export default function RecipeId() {
     const options2 = {
         animationEnabled: true,
         exportEnabled: true,
-        theme: "dark2", // "light1", "dark1", "dark2"
-        title:{
+        theme: "light1", // "light1", "dark1", "dark2"
+        backgroundColor: "transparent",
+        title: {
             text: "Nutrition Analysis"
         },
         data: [{
             type: "pie",
-            indexLabel: "{label}: {y}mg",		
+            indexLabel: "{label}: {y}mg",
             startAngle: -90,
-            dataPoints: Array.from(nutrients.map((n) => ({y: n.amount, label: n.name})))
+            dataPoints: Array.from(nutrients.map((n) => ({ y: n.amount, label: n.name })))
         }]
     }
 
@@ -327,7 +331,7 @@ export default function RecipeId() {
             }
         ]
     })
-    
+
     const [speaking, setSpeaking] = useState(false);
 
     useEffect(() => {
@@ -349,76 +353,125 @@ export default function RecipeId() {
 
         // getRecipe()
     }, [])
-    
+
 
     const speak = (text) => {
         if ('speechSynthesis' in window) {
-          const utterance = new SpeechSynthesisUtterance(text);
-          utterance.lang = 'en-US';
-          speechSynthesis.speak(utterance);
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            speechSynthesis.speak(utterance);
         }
-      };
-    
-      const handleSpeakClick = () => {
+    };
+
+    const handleSpeakClick = () => {
         setSpeaking(true);
         recipe.steps.forEach((step, index) => {
-          const textToSpeak = `Step ${step.number}: ${step.step}`;
-          setTimeout(() => speak(textToSpeak), index * 2000); // Adjust delay as needed
+            const textToSpeak = `Step ${step.number}: ${step.step}`;
+            setTimeout(() => speak(textToSpeak), index * 2000); // Adjust delay as needed
         });
         setTimeout(() => setSpeaking(false), recipe.steps.length * 2000); // Adjust delay as needed
-      };
+    };
 
-  return (
-    <div className=' flex flex-col w-full py-12 px-24 '>
-        <div className=' flex flex-col gap-5 p-5 rounded-md bg-dorange border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
+    const firstRow = recipe.steps.filter((elem, idx) => {
+        return idx <= 4
+    })
+
+    const secondRow = recipe.steps.filter((elem, idx) => {
+        return (idx > 4)
+    })
+
+    const recipeColumns = Array(5).fill(0).map((_, idx) => {
+        const upperStep = firstRow[idx];
+        const lowerStep = secondRow[idx];
+        return [upperStep, lowerStep]
+    })
+
+    const [activeIndex, setActiveIndex] = useState(-1)
+    return (
+        <div className='flex flex-col gap-4 w-screen px-[10vw] py-[10vh] bg-lorange'>
             <div className="flex flex-row w-full gap-5 justify-start items-center">
-            <img className=' w-fit h-fit rounded-md border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' src={image} alt="" />
-            <h2 className=' text-5xl font-semibold '>{name}</h2>
+                <img className=' w-fit h-fit rounded-md border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' src={image} alt="" />
+                <h2 className=' text-5xl font-extrabold '>{name}</h2>
+                <Button grow className=' text-white font-bold py-2 px-4 rounded'
+                    onClick={handleSpeakClick}
+                    disabled={speaking}>
+
+                    <GiSpeaker className={"h-6 w-6"} />
+                </Button>
             </div>
-            <div className="flex flex-col gap-3 w-full">
-            {
-              recipe.steps.map((step, index) => {
-                return (
-                  <StepsAccordion key={index} question={`Step ${step.number}`} >
-                    <div className='p-2 flex flex-col gap-2 w-full'>
-                      {step.equipment.length > 0 ?
-                        <div className='flex flex-row gap-1 items-center justify-start'>
-                          <h3 className='text-lg font-bold'>Equipments :</h3>
-                          <p className='font-normal'>{(Array.from(step.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
-                        </div> : <></>}
-                      {step.ingredients.length > 0 ?
-                        <div className='flex flex-row gap-1 items-center justify-start'>
-                          <h3 className='text-lg font-bold'>Ingredients :</h3>
-                          <p className='font-normal'>{(Array.from(step.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
-                        </div> : <></>}
-                      <div className='flex flex-row gap-1 items-start justify-start'>
-                        <h3 className='text-lg font-bold text-nowrap'>Procedure :</h3>
-                        <p className='font-normal pt-[2.5px] '>{step.step}</p>
-                      </div>
+            <div className="flex flex-row gap-4 w-full">
+                {
+                    recipeColumns.map((stepPair, index) => {
+                        const [upperStep, lowerStep] = stepPair
+                        return (
+                            <div className={"flex flex-col gap-4"}>
+                                <StepsAccordion key={index} question={`Step ${upperStep.number}`} active={activeIndex === index} setActive={setActiveIndex} index={index}>
+                                    <div className={`p-2 flex flex-col ${index % 2 ? "bg-lgreen" : "bg-lorange"}  gap-2 w-full`}>
+                                        {upperStep.equipment.length > 0 ?
+                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                                <h3 className='text-lg font-bold'>Equipments&nbsp;:</h3>
+                                                <p className='font-normal'>{(Array.from(upperStep.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
+                                            </div> : <></>}
+                                        {upperStep.ingredients.length > 0 ?
+                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                                <h3 className='text-lg font-bold'>Ingredients&nbsp;:</h3>
+                                                <p className='font-normal'>{(Array.from(upperStep.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
+                                            </div> : <></>}
+                                        <div className='flex flex-row gap-1 items-start justify-start'>
+                                            <h3 className='text-lg font-bold text-nowrap'>Procedure&nbsp;:</h3>
+                                            <p className='font-normal pt-[2.5px] '>{upperStep.step}</p>
+                                        </div>
+                                    </div>
+                                </StepsAccordion>
+                                <StepsAccordion key={index} question={`Step ${lowerStep.number}`} active={activeIndex === (5 + index)} setActive={setActiveIndex} index={5 + index}>
+                                    <div className={`p-2 flex flex-col ${(index + 5) % 2 ? "bg-lgreen" : "bg-lorange"}  gap-2 w-full`}>
+                                        {lowerStep.equipment.length > 0 ?
+                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                                <h3 className='text-lg font-bold'>Equipments&nbsp;:</h3>
+                                                <p className='font-normal'>{(Array.from(lowerStep.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
+                                            </div> : <></>}
+                                        {lowerStep.ingredients.length > 0 ?
+                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                                <h3 className='text-lg font-bold'>Ingredients&nbsp;:</h3>
+                                                <p className='font-normal'>{(Array.from(lowerStep.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
+                                            </div> : <></>}
+                                        <div className='flex flex-row gap-1 items-start justify-start'>
+                                            <h3 className='text-lg font-bold text-nowrap'>Procedure&nbsp;:</h3>
+                                            <p className='font-normal pt-[2.5px] '>{lowerStep.step}</p>
+                                        </div>
+                                    </div>
+                                </StepsAccordion>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            {/* <Button
+                    className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+                    onClick={handleSpeakClick}
+                    disabled={speaking}
+                >
+                    {speaking ? 'Speaking...' : 'Speak Recipe'}
+                </Button> */}
+
+            <div className='flex w-full flex-row gap-4'>
+                <Paper grow>
+                    <div className={"p-4 bg-dorange"}>
+                        <CanvasJSChart options={options}
+                        /* onRef={ref => this.chart = ref} */
+                        /* containerProps={{ width: '100%', height: '300px' }} */
+                        />
                     </div>
-                  </StepsAccordion>
-                )
-              })
-            }
-          </div>
-          <Button
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-            onClick={handleSpeakClick}
-            disabled={speaking}
-          >
-            {speaking ? 'Speaking...' : 'Speak Recipe'}
-          </Button>
+                </Paper>
+                <Paper grow>
+                    <div className={"p-4 bg-dorange"}>
+                        <CanvasJSChart options={options2}
+                        /* onRef={ref => this.chart = ref} */
+                        /* containerProps={{ width: '100%', height: '300px' }} */
+                        />
+                    </div>
+                </Paper>
+            </div>
         </div>
-        <div className=' flex w-full p-3'>
-        <CanvasJSChart options = {options} 
-				/* onRef={ref => this.chart = ref} */
-				/* containerProps={{ width: '100%', height: '300px' }} */
-			/>
-            <CanvasJSChart options = {options2} 
-				/* onRef={ref => this.chart = ref} */
-				/* containerProps={{ width: '100%', height: '300px' }} */
-			/>
-        </div>
-      </div>
     );
 }
