@@ -16,34 +16,36 @@ function NavBar() {
 							className={"px-4 h-[80px] hidden lg:block"}
 						/>
 					</Link>
-					<nav className={"gap-4 px-4 flex flex-row flex-grow justify-between items-center font-bold"}>
-						<div className={"px-4 lg:px-8 py-4 flex lg:gap-16 gap-4 flex-row justify-between"}>
-							<Link to={"/"}>HOME</Link>
+					<nav className={"gap-4 px-8 flex flex-row flex-grow justify-between items-center font-bold"}>
+						<div className={"px-4 flex flex-grow flex-row justify-between"}>
+							<Link to={"/"}>Home</Link>
 							<Link to={"/onboarding"}>Start</Link>
 							<Link to={"/recipe"}>Recipe&nbsp;</Link>
 							<Link to={"/productscanner"}>ProductScanner</Link>
 							<Link to={"/community"}>Community</Link>
 							<Link to={"/chatbot"}>ChatBot</Link>
 						</div>
-						<Link to={pathname === "/login" ? "/signup" : "/login"}
-							  className={"text-green-600 block lg:hidden"}>
+						<Link
+							to={pathname === "/login" ? "/signup" : "/login"}
+							className={"text-green-600 block lg:hidden"}
+						>
 							{pathname === "/login" ? "SIGN UP" : "LOG IN"}
 						</Link>
 						{auth ?
-						<Link to={"/me"}>
-							<Button color={"primary"}>PROFILE</Button>
-						</Link>
-						:
-						<>
-						<div className={"flex-row gap-4 hidden lg:flex"}>
-							<Link to={"/login"}>
-								<Button color={"empty"}>LOG IN</Button>
+							<Link to={"/me"}>
+								<Button color={"primary"}>PROFILE</Button>
 							</Link>
-							<Link to={"/signup"}>
-								<Button color={"primary"}>SIGN UP</Button>
-							</Link>
-						</div>
-						</>}
+							:
+							<>
+								<div className={"flex-row gap-4 hidden lg:flex"}>
+									<Link to={"/login"}>
+										<Button color={"empty"}>LOG IN</Button>
+									</Link>
+									<Link to={"/signup"}>
+										<Button color={"primary"}>SIGN UP</Button>
+									</Link>
+								</div>
+							</>}
 					</nav>
 				</div>
 			</div>

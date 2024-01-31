@@ -60,7 +60,8 @@ export default function Recipe() {
       })
       const data = await res.json()
       console.log(data);
-      const arr = data.result.replace(/ /g, "").split(",")
+      const arr = data.result.split(":")[1].replace(/[\.,\*\-\s\d]+/gi, " ").split(" ")
+      console.log({arr})
       setIngredients(arr)
     }, 'image/jpeg');
   };
@@ -125,7 +126,7 @@ export default function Recipe() {
       {
         recipes.map((recipe, index) => {
           return (
-            <Link to={`/recipe/${recipe.id}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
+            <Link to={`/recipe/${recipe.id}?name=${recipe.title}&image=${recipe.image}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
             <ImageCard imageUrl={recipe.image} key={index}>
               {recipe.title}
             </ImageCard>
