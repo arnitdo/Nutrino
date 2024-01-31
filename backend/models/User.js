@@ -15,10 +15,37 @@ const userSchema = new Schema({
         type:String,
         required:true
     },
-    date:{
+    allergies:{
+        type:[String],
+        required:false
+    },
+    prefers:{
+        type:[String],
+        required:false
+    },
+    avoids:{
+        type:[String],
+        required:false
+    },
+    height:{
+        type:Number,
+        required:false
+    },
+    weight:{
+        type:Number,
+        required:false
+    },
+    age:{
+        type:Number,
+        required:false
+    },
+    createdAt:{
         type:Date,
         default:Date.now,
         required:true
     },
   });
-  export default mongoose.model('testuser',userSchema);
+
+  const userModel =  mongoose.model('testuser',userSchema);
+
+  export default userModel;

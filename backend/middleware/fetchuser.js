@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const fetchuser = (req, res, next) => {
+const fetchuser = (req, res, next) => {
     const JWT_SECRET = process.env.JWT_SECRET;
     try {
         const token = req.header('auth-token');
@@ -14,3 +14,5 @@ export const fetchuser = (req, res, next) => {
         res.status(401).send('Unauthorized');
     }
 }
+
+export default fetchuser;
