@@ -16,11 +16,17 @@ reader = easyocr.Reader(['en'], gpu=False)
 def ingredientsfetch():
     try:
         import os
+        import ast
+        res = ""
+        with open('ingredients.json', 'r') as file:
+            data = ast.literal_eval(file.read())
+        for i in data:
+            res += i + " "
         image_file = request.files['image']
         image_file.save("temp_image.jpg")
         img = PIL.Image.open('temp_image.jpg')
         model = genai.GenerativeModel('gemini-pro-vision')
-        prompt = "Extract all the food ingredients from the following text without any special characters or numbers just , as the separator between ingredients"
+        prompt = "Extract all the food ingredients from the following text without any special characters or numbers just , as the separator between ingredients which are in" + res
         result = model.generate_content([prompt,img],stream=True)
         result.resolve()
         os.remove("temp_image.jpg")
