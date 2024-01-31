@@ -1,10 +1,11 @@
 import NutrinoLogo from "../assets/nutrino-logo.png"
 import {Link, useLocation} from "react-router-dom";
 import Button from "../components/Button.jsx";
+import store from "../lib/zustand.js";
 
 function NavBar(){
 	const {pathname} = useLocation()
-
+	const {user, auth} = store()
 	return (
 		<div className={"w-screen"}>
 			<div className={`border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
@@ -19,12 +20,18 @@ function NavBar(){
 						<div className={"px-4 lg:px-8 py-4 flex lg:gap-16 gap-4 flex-row justify-between"}>
 							<Link to={"/"}>HOME</Link>
 							<Link to={"/onboarding"}>START</Link>
-							<Link to={""}>PAGE&nbsp;2</Link>
+							<Link to={"/recipe"}>Recipe&nbsp;</Link>
 							<Link to={""}>PAGE&nbsp;3</Link>
 						</div>
 						<Link to={pathname === "/login" ? "/signup" : "/login"} className={"text-green-600 block lg:hidden"}>
 							{pathname === "/login" ? "SIGN UP" : "LOG IN"}
 						</Link>
+						{auth ?
+						<Link to={"/me"}>
+							<Button color={"primary"}>PROFILE</Button>
+						</Link>
+						:
+						<>
 						<div className={"flex-row gap-4 hidden lg:flex"}>
 							<Link to={"/login"}>
 								<Button color={"empty"}>LOG IN</Button>
@@ -33,6 +40,7 @@ function NavBar(){
 								<Button color={"primary"}>SIGN UP</Button>
 							</Link>
 						</div>
+						</>}
 					</nav>
 				</div>
 			</div>
