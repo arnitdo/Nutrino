@@ -47,7 +47,7 @@ const ONBOARDING_PRESETS = {
 };
 
 function OnboardingPage() {
-	const {backend_url, setAuth, setMessage, setType, setToast} = store()
+	const {backend_url, setAuth, setMessage, setType, setToast, setUser} = store()
 
 	const navigate = useNavigate()
 
@@ -87,9 +87,7 @@ function OnboardingPage() {
 				setToast(true)
 				return
 			}
-			const token = data.authToken
-			localStorage.setItem("auth-token", token)
-			setAuth(true)
+			setUser(data.user)
 			setMessage("Preferences Updated!")
 			setType("success")
 			setToast(true)

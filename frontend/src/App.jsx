@@ -11,12 +11,14 @@ import RecipeId from "./pages/RecipeId.jsx";
 import Chatbot from "./pages/Chatbot.jsx";
 import ProductScanner from "./pages/ProductScanner.jsx";
 import Community from "./pages/Community.jsx";
+import AuthChecker from "./components/AuthChecker.jsx";
 
 function App() {
     return (
         <div className={"w-screen min-h-screen flex flex-col"}>
 			<BrowserRouter>
 				<NavBar />
+				<AuthChecker/>
 				<Routes>
 					<Route path={"/"} index element={<Homepage />} />
 					<Route path={"/signup"} element={<SignupPage />} />

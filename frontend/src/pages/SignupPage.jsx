@@ -37,7 +37,7 @@ export default function SignupPage() {
 			setMessage("Signup successful")
 			setType("success")
 			setToast(true)
-			navigate("/me")
+			navigate("/onboarding")
 
 		} catch (error) {
 			console.log(error)
