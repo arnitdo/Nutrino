@@ -125,7 +125,7 @@ export default function Recipe() {
       {
         recipes.map((recipe, index) => {
           return (
-            <Link to={`/recipe/${recipe.id}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
+            <Link to={`/recipe/${recipe.id}?name=${recipe.title}&image=${recipe.image}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
             <ImageCard imageUrl={recipe.image} key={index}>
               {recipe.title}
             </ImageCard>

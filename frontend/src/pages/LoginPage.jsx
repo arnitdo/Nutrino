@@ -45,7 +45,7 @@ export default function LoginPage() {
 	return (
 		<div
 			style={{backgroundImage: `url(${OrangeBG})`}}
-			className={"w-screen flex-grow flex justify-center items-center"}
+			className={"w-screen min-h-screen flex-grow flex justify-center items-center"}
 		>
 			<Card heading={"LOGIN"} headingColor={"bg-dgreen"}>
 				<form onSubmit={(e) => handleLogin(e)}>

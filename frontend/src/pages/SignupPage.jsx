@@ -45,7 +45,7 @@ export default function SignupPage() {
 	}
 	return (
 		<div style={{backgroundImage: `url(${OrangeBG})`}}
-			 className={"w-screen flex-grow flex justify-center items-center"}>
+			 className={"w-screen min-h-screen flex-grow flex justify-center items-center"}>
 			<Card heading={"SIGN UP"}>
 				<form onSubmit={(e) => handleSignup(e)}>
 					<div className={"flex flex-col gap-2"}>

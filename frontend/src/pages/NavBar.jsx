@@ -16,7 +16,7 @@ function NavBar() {
 							className={"px-4 h-[80px] hidden lg:block"}
 						/>
 					</Link>
-					<nav className={"gap-4 px-4 flex flex-row flex-grow justify-between items-center font-bold"}>
+					<nav className={"gap-4 px-8 flex flex-row flex-grow justify-between items-center font-bold"}>
 						<div className={"px-4 lg:px-8 py-4 flex lg:gap-16 gap-4 flex-row justify-between"}>
 							<Link to={"/"}>HOME</Link>
 							<Link to={"/onboarding"}>Start</Link>
