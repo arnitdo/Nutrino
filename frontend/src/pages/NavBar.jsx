@@ -3,7 +3,7 @@ import {Link, useLocation} from "react-router-dom";
 import Button from "../components/Button.jsx";
 import store from "../lib/zustand.js";
 
-function NavBar(){
+function NavBar() {
 	const {pathname} = useLocation()
 	const {user, auth} = store()
 	return (
@@ -13,7 +13,7 @@ function NavBar(){
 					<Link to={"/"}>
 						<img
 							src={NutrinoLogo} alt={"Nutrino Logo"}
-							className={"border-r-4 border-r-black h-[80px] hidden lg:block"}
+							className={"px-4 h-[80px] hidden lg:block"}
 						/>
 					</Link>
 					<nav className={"gap-4 px-4 flex flex-row flex-grow justify-between items-center font-bold"}>
@@ -23,7 +23,8 @@ function NavBar(){
 							<Link to={"/recipe"}>Recipe&nbsp;</Link>
 							<Link to={""}>PAGE&nbsp;3</Link>
 						</div>
-						<Link to={pathname === "/login" ? "/signup" : "/login"} className={"text-green-600 block lg:hidden"}>
+						<Link to={pathname === "/login" ? "/signup" : "/login"}
+							  className={"text-green-600 block lg:hidden"}>
 							{pathname === "/login" ? "SIGN UP" : "LOG IN"}
 						</Link>
 						{auth ?

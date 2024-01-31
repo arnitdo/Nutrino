@@ -5,6 +5,9 @@ import Input from "../components/Input";
 import {Link, useNavigate} from "react-router-dom";
 import store from "../lib/zustand";
 
+import OrangeBG from "../assets/orange_bg.jpeg"
+
+
 export default function LoginPage() {
 	const [email, setemail] = useState("")
 	const [password, setpassword] = useState("")
@@ -40,7 +43,10 @@ export default function LoginPage() {
 		}
 	}
 	return (
-		<div className={"w-screen flex-grow flex justify-center items-center"}>
+		<div
+			style={{backgroundImage: `url(${OrangeBG})`}}
+			className={"w-screen flex-grow flex justify-center items-center"}
+		>
 			<Card heading={"LOGIN"}>
 				<form onSubmit={(e) => handleLogin(e)}>
 					<div className={"flex flex-col gap-2"}>
@@ -54,7 +60,7 @@ export default function LoginPage() {
 							type={"password"}
 						/>
 						<div className="mt-4 justify-center flex">
-							<Button type={"submit"}>
+							<Button type={"submit"} color={"primary"}>
 								Login
 							</Button>
 						</div>

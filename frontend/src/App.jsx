@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SignupPage from "./pages/SignupPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import NavBar from "./pages/NavBar.jsx";
@@ -17,7 +17,6 @@ function App() {
 					<Route path={"/onboarding"} element={<OnboardingPage />} />
 					<Route path={"/me"} element={<Hello />} />
 					<Route path={"/recipe"} element={<Recipe />} />
-				
 			</Routes>
 			</BrowserRouter>
 		</div>
