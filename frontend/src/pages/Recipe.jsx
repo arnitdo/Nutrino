@@ -1,10 +1,10 @@
-  import React, { useRef, useState } from 'react'
-  import store from '../lib/zustand';
-  import Button from '../components/Button';
-  import Loader from '../components/Loader';
-  import Input from '../components/Input';
-  import ImageCard from '../components/ImageCard';
-  import { Link } from 'react-router-dom';
+import React, { useRef, useState } from 'react'
+import store from '../lib/zustand';
+import Button from '../components/Button';
+import Loader from '../components/Loader';
+import Input from '../components/Input';
+import ImageCard from '../components/ImageCard';
+import { Link } from 'react-router-dom';
 
 export default function Recipe() {
   const videoRef = useRef(null);
@@ -12,7 +12,16 @@ export default function Recipe() {
   const [capturedFrame, setCapturedFrame] = useState(null);
   const [ingredients, setIngredients] = useState([])
   const [dish, setDish] = useState("")
-  const [recipes, setrecipes] = useState([])
+  const [recipes, setrecipes] = useState([{"id":638245,"title":"Chicken Pasta With Anchovy Rosemary Sauce","image":"https://spoonacular.com/recipeImages/638245-312x231.jpg","imageType":"jpg"},
+  {"id":638236,"title":"Chicken Pasta Primavera - Flower Patch Farmgirl Style","image":"https://spoonacular.com/recipeImages/638236-312x231.jpg","imageType":"jpg"},
+  {"id":606953,"title":"Cajun Chicken Pasta","image":"https://spoonacular.com/recipeImages/606953-312x231.jpg","imageType":"jpg"},
+  {"id":1096054,"title":"Spicy Chicken Pasta and Peas with Sun-Dried Tomato Sauce","image":"https://spoonacular.com/recipeImages/1096054-312x231.jpg","imageType":"jpg"},
+  {"id":645651,"title":"Grilled Chicken Pasta With Gorgonzola Walnut Cream Sauce","image":"https://spoonacular.com/recipeImages/645651-312x231.jpg","imageType":"jpg"},
+  {"id":637923,"title":"Chicken and Penne Pasta With Garlic Rosemary Sauce","image":"https://spoonacular.com/recipeImages/637923-312x231.jpg","imageType":"jpg"},
+  {"id":654901,"title":"Pasta With Chicken and Broccoli","image":"https://spoonacular.com/recipeImages/654901-312x231.jpg","imageType":"jpg"},
+  {"id":654913,"title":"Pasta With Chicken and Mushrooms","image":"https://spoonacular.com/recipeImages/654913-312x231.jpg","imageType":"jpg"},
+  {"id":638235,"title":"Chicken Parmesan With Pasta","image":"https://spoonacular.com/recipeImages/638235-312x231.jpg","imageType":"jpg"},
+  {"id":655582,"title":"Penne Pasta With Chicken And Mushrooms","image":"https://spoonacular.com/recipeImages/655582-312x231.jpg","imageType":"jpg"}])
   const { backend_url, api } = store()
   const getMedia = async () => {
     try {
@@ -28,10 +37,10 @@ export default function Recipe() {
     }
   };
 
-    const switchCamera = () => {
-      setRearCamera(!rearCamera);
-      getMedia();
-    };
+  const switchCamera = () => {
+    setRearCamera(!rearCamera);
+    getMedia();
+  };
 
   const captureFrame = () => {
     const canvas = document.createElement('canvas');
@@ -64,7 +73,7 @@ export default function Recipe() {
   }, []);
 
   const handleIngredientSearch = async (ingredients) => {
-    if(ingredients.length===0){
+    if (ingredients.length === 0) {
       return
     }
     const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${api}&includeIngredients=${ingredients.join(",")}`, {
@@ -94,59 +103,68 @@ export default function Recipe() {
   }
   return (
     <div className=' flex w-full flex-col bg-lorange' >
-      <div className={`flex flex-row p-8 ${recipes.length === 0 ? "bg-lorange justify-center" : "justify-between bg-black"} items-start w-full`}>
-        <div className="flex flex-col gap-4">
-        {capturedFrame ? (
-            null
-          ) : (
-            <h1 className={`text-3xl font-bold flex-grow py-4 text-center ${recipes.length === 0 ? "text-black" : "text-white"}`}> SCAN YOUR INGREDIENTS HERE</h1>
-          )
-        }
-          {capturedFrame ? (
-            <img className=' rounded-lg' src={capturedFrame} alt="Captured Frame" />
-          ) : (
-            <video className=' rounded-lg' ref={videoRef} autoPlay playsInline />
-          )}
-          <div className="flex flex-row w-full justify-between gap-8 items-center">
-            <Button color='secondary' grow onClick={switchCamera}>Switch Camera</Button>
-            <Button color='primary' grow onClick={captureFrame}>Capture Frame</Button>
-          </div>
-        </div>
-        {capturedFrame ? (
-          <div className=' flex flex-col flex-grow items-start justify-between gap-4 p-8'>
-          <h1 className={`font-extrabold ${recipes.length === 0 ? "text-black" : "text-white"} text-4xl`}>{capturedFrame ? "This image consists of" : ""}</h1>
-          <div className=' flex flex-col gap-2'>
-            {capturedFrame && ingredients.length === 0 ?
-                (
-                  <Loader />
-                )
-                :
-                (
-                  <ul>
-                    {
-                      ingredients.map((ingredient, index) => {
-                        return <li className='font-bold text-xl' key={index}>{ingredient}</li>
-                      })
-                    }
-                  </ul>
-                )
-              }
-          </div>
-        </div>
-        ) : (null)}
-      </div>
-      <div className={recipes.length == 0 ? "hidden" : ' w-full grid grid-cols-5 gap-7 py-10'}>
-        {
-          recipes.map((recipe, index) => {
-            return (
-              <Link to={`/recipe/${recipe.id}?name=${recipe.title}&image=${recipe.image}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
-                <ImageCard imageUrl={recipe.image} key={index}>
-                  {recipe.title}
-                </ImageCard>
-              </Link>
+      <div className={`flex flex-col flex-grow items-center ${recipes.length === 0 ? "bg-lorange" : "bg-black"}`}>
+        <div className={`flex flex-row p-8 ${recipes.length === 0 ? "bg-lorange justify-center" : "justify-between bg-black"} items-start w-full`}>
+          <div className="flex flex-col gap-4">
+            {capturedFrame ? (
+              null
+            ) : (
+              <h1 className={`text-3xl font-bold flex-grow py-4 text-center ${recipes.length === 0 ? "text-black" : "text-white"}`}> SCAN YOUR INGREDIENTS HERE</h1>
             )
-          })
-        }
+            }
+            {capturedFrame ? (
+              <img className=' rounded-lg' src={capturedFrame} alt="Captured Frame" />
+            ) : (
+              <video className=' rounded-lg' ref={videoRef} autoPlay playsInline />
+            )}
+            <div className="flex flex-row w-full justify-between gap-8 items-center">
+              <Button color='secondary' grow onClick={switchCamera}>Switch Camera</Button>
+              <Button color='primary' grow onClick={captureFrame}>Capture Frame</Button>
+            </div>
+          </div>
+          {capturedFrame ? (
+            <div className=' flex flex-col flex-grow items-start justify-between gap-4 p-8'>
+              <h1 className={`font-extrabold ${recipes.length === 0 ? "text-black" : "text-white"} text-4xl`}>{capturedFrame ? "This image consists of" : ""}</h1>
+              <div className=' flex flex-col gap-2'>
+                {capturedFrame && ingredients.length === 0 ?
+                  (
+                    <Loader />
+                  )
+                  :
+                  (
+                    <ul>
+                      {
+                        ingredients.map((ingredient, index) => {
+                          return <li className='font-bold text-xl' key={index}>{ingredient}</li>
+                        })
+                      }
+                    </ul>
+                  )
+                }
+              </div>
+            </div>
+          ) : (null)}
+        </div>
+        <div className={"flex-grow w-screen border-2 border-black"} />
+      </div>
+      <div className={"flex flex-col gap-2 flex-grow justify-between items-center p-8"}>
+        <div className={`w-[80vw] flex flex-row gap-2 justify-center items-center`}>
+          <Input placeholder='Search for dishes here' value={dish} grow setValue={setDish} />
+          <Button onClick={() => { handleRecipeSearch() }}>Search</Button>
+        </div>
+        <div className={recipes.length == 0 ? "hidden" : ' w-full grid grid-cols-5 gap-7 py-10'}>
+          {
+            recipes.map((recipe, index) => {
+              return (
+                <Link to={`/recipe/${recipe.id}?name=${recipe.title}&image=${recipe.image}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
+                  <ImageCard imageUrl={recipe.image} key={index}>
+                    {recipe.title}
+                  </ImageCard>
+                </Link>
+              )
+            })
+          }
+        </div>
       </div>
     </div>
   )

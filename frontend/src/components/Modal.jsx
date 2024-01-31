@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import ReactDom from 'react-dom'
-import { MdClose } from 'react-icons/md'
+import {MdClose} from 'react-icons/md'
 
-export default function Modal({ active, setActive, children }) {
-  const [isVisible, setIsVisible] = useState(false)
+export default function Modal({active, setActive, children, title}) {
+	const [isVisible, setIsVisible] = useState(false)
 
-  const closeModal = () => {
-    setIsVisible(false)
-    setTimeout(() => {
-      setActive(false)
-    }, 300)
-  }
+	const closeModal = () => {
+		setIsVisible(false)
+		setTimeout(() => {
+			setActive(false)
+		}, 300)
+	}
 
   useEffect(() => {
     if (active) {
