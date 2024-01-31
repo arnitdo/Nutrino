@@ -7,35 +7,35 @@ import store from "../lib/zustand";
 import OrangeBG from "../assets/orange_bg.jpeg";
 
 export default function SignupPage() {
-	const [name, setname] = useState("")
-	const [email, setemail] = useState("")
-	const [password, setpassword] = useState("")
-	const {setToast, setMessage, setAuth} = store()
-	const navigate = useNavigate()
-	const handleSignup = async (e) => {
-		e.preventDefault()
-		const url = import.meta.env.VITE_BACKEND_URL
-		console.log(url)
-		try {
-			const res = await fetch(`${url}/auth/signup`, {
-				method: "POST",
-				body: JSON.stringify({name, email, password}),
-				headers: {
-					"Content-Type": "application/json"
-				}
-			})
-			const data = await res.json()
-			if (data.error) {
-				setMessage(data.error)
-				setToast(true)
-				return
-			}
-			const token = data.authToken
-			localStorage.setItem("auth-token", token)
-			setAuth(true)
-			setMessage("Signup successful")
-			setToast(true)
-			navigate("/me")
+  const [name, setname] = useState("")
+  const [email, setemail] = useState("")
+  const [password, setpassword] = useState("")
+  const {setToast, setMessage, setAuth, backend_url} = store()
+  const navigate = useNavigate()
+  const handleSignup = async(e) => {
+    e.preventDefault()
+    const url= backend_url
+    console.log(url)
+    try {
+    const res = await fetch(`${url}/auth/signup`, {
+      method: "POST",
+      body: JSON.stringify({ name, email, password }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+  })
+  const data = await res.json()
+  if(data.error){
+    setMessage(data.error)
+    setToast(true)
+    return
+  }
+  const token = data.authToken
+  localStorage.setItem("auth-token", token)
+  setAuth(true)
+  setMessage("Signup successful")
+  setToast(true)
+  navigate("/me")
 
 		} catch (error) {
 			console.log(error)
