@@ -6,6 +6,7 @@ import OnboardingPage from "./pages/OnboardingPage.jsx";
 import Hello from "./pages/Hello.jsx";
 import Recipe from "./pages/Recipe.jsx";
 import Homepage from "./pages/Homepage.jsx";
+import Footer from "./pages/Footer.jsx";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
 					<Route path={"/me"} element={<Hello />} />
 					<Route path={"/recipe"} element={<Recipe />} />
 				</Routes>
+				<Footer/>
 			</BrowserRouter>
 		</div>
     )
