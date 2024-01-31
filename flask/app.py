@@ -74,7 +74,21 @@ def geminiimagecaptioning():
         return jsonify({'result': result.text})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
-    
+
+@app.route('/ingredientsfetch', methods=['POST'])
+def ingredientsfetch():
+    try:
+        import os
+        image_file = request.files['image']
+        image_file.save("temp_image.jpg")
+        img = PIL.Image.open('temp_image.jpg')
+        model = genai.GenerativeModel('gemini-pro-vision')
+        result = model.generate_content(["Extract all the food ingredients from the following text : ",img],stream=True)
+        result.resolve()
+        os.remove("temp_image.jpg")
+        return jsonify({'result': result.text})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
