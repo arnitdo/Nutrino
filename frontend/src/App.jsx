@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import SignupPage from "./pages/SignupPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import NavBar from "./pages/NavBar.jsx";
+import OnboardingPage from "./pages/OnboardingPage.jsx";
 import Hello from "./pages/Hello.jsx";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
 				<Routes>
 					<Route path={"/signup"} element={<SignupPage />} />
 					<Route path={"/login"} element={<LoginPage />} />
+					<Route path={"/onboarding"} element={<OnboardingPage />} />
 					<Route path={"/me"} element={<Hello />} />
 				</Routes>
 			</BrowserRouter>
