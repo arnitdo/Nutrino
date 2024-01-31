@@ -79,9 +79,9 @@ function OnboardingPage() {
 						{
 							Object.keys((ONBOARDING_PRESETS)).map((presetName) => {
 								return (
-									<Paper key={presetName} flex>
+									<Paper noBorder key={presetName} flex>
 										<div
-											className={"cursor-pointer flex justify-around items-center flex-col flex-grow gap-4 p-8 bg-lgreen"}
+											className={"cursor-pointer flex justify-around items-center flex-col flex-grow gap-4 p-8 bg-lgreen transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"}
 											onClick={() => {
 												setUserProfile((prevProfile) => {
 													const {prefers, avoids} = ONBOARDING_PRESETS[presetName]
@@ -112,7 +112,7 @@ function OnboardingPage() {
 							})
 						}
 						<div
-							className={"cursor-pointer col-span-2 rounded-md border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-lgreen text-2xl flex flex-col justify-center items-center"}
+							className={"cursor-pointer col-span-2 rounded-md font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-lgreen text-2xl flex flex-col justify-center items-center transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"}
 							onClick={() => {
 								if (firstInput.current) {
 									window.scrollTo({
