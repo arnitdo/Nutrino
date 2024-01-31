@@ -10,6 +10,7 @@
         onChange={(e) => {
           setValue(e.target.value)
         }}
+        required
         aria-label={placeholder}
       />
     )

@@ -1,6 +1,7 @@
-export default function Button({ children, onClick }) {
+export default function Button({ children, onClick, type }) {
   return (
     <button
+      type={type}
       role="button"
       aria-label={"Click to perform an action"}
       onClick={onClick}
