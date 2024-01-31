@@ -90,5 +90,18 @@ def ingredientsfetch():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/recipemaker', methods=['POST'])
+def recipemaker():
+    try:
+        import os
+        food_to_include = request.get_json()['food_to_include']
+        food_to_exclude = request.get_json()['food_to_exclude']
+        model = genai.GenerativeModel('gemini-pro')
+        result = model.generate_content(["Give a detailed step by step recipe from ingredients without ",food_to_include," and without any ",food_to_exclude],stream=True)
+        result.resolve()
+        return jsonify({'result': result.text})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
