@@ -19,9 +19,11 @@ function NavBar() {
 					<nav className={"gap-4 px-4 flex flex-row flex-grow justify-between items-center font-bold"}>
 						<div className={"px-4 lg:px-8 py-4 flex lg:gap-16 gap-4 flex-row justify-between"}>
 							<Link to={"/"}>HOME</Link>
-							<Link to={"/onboarding"}>START</Link>
+							<Link to={"/onboarding"}>Start</Link>
 							<Link to={"/recipe"}>Recipe&nbsp;</Link>
-							<Link to={""}>PAGE&nbsp;3</Link>
+							<Link to={"/productscanner"}>ProductScanner</Link>
+							<Link to={"/community"}>Community</Link>
+							<Link to={"/chatbot"}>ChatBot</Link>
 						</div>
 						<Link to={pathname === "/login" ? "/signup" : "/login"}
 							  className={"text-green-600 block lg:hidden"}>
