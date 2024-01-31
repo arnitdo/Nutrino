@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import FeatureCard from "../components/FeatureCard";
 import Faqs from "../components/Faqs";
 import Marquee from "../components/Marquee";
+import Features from "./Features";
 export default function Homepage() {
     return (
         <>
@@ -35,6 +36,9 @@ export default function Homepage() {
                     <FeatureCard heading={"Allergy and Dietary Filters"} imageUrl={allergyfree} paragraph={"Customize your preferences & recieve notifications"} />
                     <FeatureCard heading={"Community Recipe Sharing"} imageUrl={sharerecipe} paragraph={"Share your recipe with your loved ones."}/>
                 </div>
+               <div className="pb-10">
+                <Features/>
+               </div>
                <div className="flex flex-col gap-5 pb-10">
                 <Faqs question={"Do you provide Religious Food Avoidance Details?"} answer={"Yes, We do provide"}/>
                 <Faqs question={"Do you provide Food Recommendation based on my allergies?"} answer={"Yes, We do provide"}/>
