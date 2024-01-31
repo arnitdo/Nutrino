@@ -51,9 +51,9 @@ export default function Recipe() {
       })
       const data = await res.json()
       console.log(data);
-      const arr = data.result.split(":")[1].replace(/[\.,\*\-\s\d]+/gi, " ").split(" ")
-      console.log({ arr })
+      const arr = Array.from(data.result.split(",").map(i=>i.trim()))
       setIngredients(arr)
+      handleIngredientSearch(arr)
     }, 'image/jpeg');
   };
 
@@ -62,70 +62,84 @@ export default function Recipe() {
       getMedia();
     }, []);
 
-    const handleRecipeSearch = async () => {
-      if(dish===""){
-        return
-      }
-      const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?query=${dish}&apiKey=${api}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      const data = await res.json()
-      setrecipes(data.results)
-      
+  const handleIngredientSearch = async (ingredients) => {
+    if(ingredients.length===0){
+      return
     }
-    return (
-      <div className=' flex w-full flex-col py-6'>
-        <div className=' flex w-full flex-row justify-between items-center px-12 py-6'>
-        <h1 className=' text-3xl font-bold py-2 '> Scan your ingredients here</h1>
-          <div className=' flex flex-row gap-2 justify-center items-center'>
-          <Input placeholder='Search for dishes here' value={dish} setValue={setDish} />
-          <Button onClick={()=>{handleRecipeSearch()}}>Search</Button>
-          </div>
-        </div>
-          <div className='flex flex-row justify-between items-center w-full'>
-            <div className="flex flex-col gap-5 px-8">
-            {capturedFrame ? (
-          <img className=' rounded-lg' src={capturedFrame} alt="Captured Frame" />
-        ) : (
-          <video className=' rounded-lg' ref={videoRef} autoPlay playsInline />
-        )}
-        <div className="flex flex-row w-full justify-between items-center">
-        <Button color='secondary' onClick={switchCamera}>Switch Camera</Button>
-        <Button color='primary' onClick={captureFrame}>Capture Frame</Button>
-        </div>
-        </div>
-        <div className=' flex flex-col gap-5 w-full'>
-          <h1 className='font-extrabold text-2xl'>{capturedFrame?"This image consists of":"Capture to extract ingredients"}</h1>
-          <div className=' flex flex-col gap-2'>
-            <ul>
-          {capturedFrame&&ingredients.length===0?
-  <>
-  <Loader/>
-  </>
-          :
-          ingredients.map((ingredient, index) => {
-            return <li className='font-bold text-xl' key={index}>{ingredient}</li>
-          })}
-          </ul>
-          </div>
-        </div>
-      </div>
-      <div className=' w-full grid grid-cols-4 gap-4 py-8'>
-        {
-          recipes.map((recipe, index) => {
-            return (
-              <Link to={`/recipe/${recipe.id}?name=${recipe.title}&image=${recipe.image}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
-              <ImageCard imageUrl={recipe.image} key={index}>
-                {recipe.title}
-              </ImageCard>
-              </Link>
-            )
-          })
-        }
-      </div>
-      </div>
-    )
+    const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${api}&includeIngredients=${ingredients.join(",")}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json()
+    console.log(data);
+    setrecipes(data.results)
   }
+  const handleRecipeSearch = async () => {
+    if(dish===""){
+      return
+    }
+    const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?query=${dish}&apiKey=${api}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json()
+    setrecipes(data.results)
+    
+  }
+  return (
+    <div className=' flex w-full flex-col py-6'>
+      <div className=' flex w-full flex-row justify-between items-center px-12 py-6'>
+      <h1 className=' text-3xl font-bold py-2 '> Scan your ingredients here</h1>
+        <div className=' flex flex-row gap-2 justify-center items-center'>
+        <Input placeholder='Search for dishes here' value={dish} setValue={setDish} />
+        <Button onClick={()=>{handleRecipeSearch()}}>Search</Button>
+        </div>
+      </div>
+        <div className='flex flex-row justify-between items-center w-full'>
+          <div className="flex flex-col gap-5 px-8">
+          {capturedFrame ? (
+        <img className=' rounded-lg' src={capturedFrame} alt="Captured Frame" />
+      ) : (
+        <video className=' rounded-lg' ref={videoRef} autoPlay playsInline />
+      )}
+      <div className="flex flex-row w-full justify-between items-center">
+      <Button color='secondary' onClick={switchCamera}>Switch Camera</Button>
+      <Button color='primary' onClick={captureFrame}>Capture Frame</Button>
+      </div>
+      </div>
+      <div className=' flex flex-col gap-5 w-full'>
+        <h1 className='font-extrabold text-2xl'>{capturedFrame?"This image consists of":"Capture to extract ingredients"}</h1>
+        <div className=' flex flex-col gap-2'>
+          <ul>
+        {capturedFrame&&ingredients.length===0?
+<>
+<Loader/>
+</>
+        :
+        ingredients.map((ingredient, index) => {
+          return <li className='font-bold text-xl' key={index}>{ingredient}</li>
+        })}
+        </ul>
+        </div>
+      </div>
+    </div>
+    <div className=' w-full grid grid-cols-4 gap-4 py-8'>
+      {
+        recipes.map((recipe, index) => {
+          return (
+            <Link to={`/recipe/${recipe.id}?name=${recipe.title}&image=${recipe.image}`} className=' flex w-full justify-center items-center hover:scale-95 transition-all'>
+            <ImageCard imageUrl={recipe.image} key={index}>
+              {recipe.title}
+            </ImageCard>
+            </Link>
+          )
+        })
+      }
+    </div>
+    </div>
+  )
+}

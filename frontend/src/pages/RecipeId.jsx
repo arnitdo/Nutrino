@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import store from '../lib/zustand'
 import StepsAccordion from '../components/StepsAccordian'
+import Button from '../components/Button'
+import CanvasJSReact from '@canvasjs/react-charts';
+//var CanvasJSReact = require('@canvasjs/react-charts');
+ 
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function RecipeId() {
     const {id} = useParams()
@@ -10,6 +16,36 @@ export default function RecipeId() {
     const query = new URLSearchParams(search)
     const name = query.get('name')
     const image = query.get('image')
+
+    const [taste, setTaste] = useState({
+        "sweetness": 28.79,
+        "saltiness": 26.74,
+        "sourness": 6.22,
+        "bitterness": 12.38,
+        "savoriness": 11.8,
+        "fattiness": 100,
+        "spiciness": 0
+    }
+    )
+    const options = {
+        animationEnabled: true,
+        exportEnabled: true,
+        theme: "light2", //"light1", "dark1", "dark2"
+        title:{
+            text: "Simple Column Chart with Index Labels"
+        },
+        axisY: {
+            includeZero: true
+        },
+        data: [{
+            type: "column", //change type to bar, line, area, pie, etc
+            //indexLabel: "{y}", //Shows y value on all Data Points
+            indexLabelFontColor: "#5A5757",
+            indexLabelPlacement: "outside",
+            dataPoints: Array.from(Object.keys(taste).map((key) => ({y: taste[key], label: key})))
+        }]
+    }
+
     const [recipe, setRecipe] = useState({
         "name": "",
         "steps": [
@@ -226,40 +262,46 @@ export default function RecipeId() {
     const [speaking, setSpeaking] = useState(false);
 
     useEffect(() => {
-      const getRecipe = async () => {
-        const res = await fetch(`https://api.spoonacular.com/recipes/${id}/analyzedInstructions?apiKey=${api}`);
-        const data = await res.json();
-        setRecipe(data);
-      };
-      // Uncomment the line below to fetch recipe data
-      // getRecipe();
-    }, [id, api]);
-  
+        const getRecipe = async () => {
+            const res = await fetch(`https://api.spoonacular.com/recipes/${id}/analyzedInstructions?apiKey=${api}`)
+            const data = await res.json()
+
+            setRecipe(data[0])
+            const res2 = await fetch(`https://api.spoonacular.com/recipes/${id}/tasteWidget.json?apiKey=${api}`)
+            const data2 = await res2.json()
+            setTaste(data2)
+        }
+        //https://api.spoonacular.com/recipes/{id}/tasteWidget.json
+
+        // getRecipe()
+    }, [])
+    
+
     const speak = (text) => {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        speechSynthesis.speak(utterance);
-      }
-    };
-  
-    const handleSpeakClick = () => {
-      setSpeaking(true);
-      recipe.steps.forEach((step, index) => {
-        const textToSpeak = `Step ${step.number}: ${step.step}`;
-        setTimeout(() => speak(textToSpeak), index * 2000); // Adjust delay as needed
-      });
-      setTimeout(() => setSpeaking(false), recipe.steps.length * 2000); // Adjust delay as needed
-    };
-  
-    return (
-      <div className='flex flex-col w-full py-12 px-24'>
-        <div className='flex flex-col gap-5 p-5 rounded-md bg-dorange border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
-          <div className="flex flex-row w-full gap-5 justify-start items-center">
-            <img className='w-fit h-fit rounded-md border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' src={image} alt="" />
-            <h2 className='text-5xl font-semibold'>{name}</h2>
-          </div>
-          <div className="flex flex-col gap-3 w-full">
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'en-US';
+          speechSynthesis.speak(utterance);
+        }
+      };
+    
+      const handleSpeakClick = () => {
+        setSpeaking(true);
+        recipe.steps.forEach((step, index) => {
+          const textToSpeak = `Step ${step.number}: ${step.step}`;
+          setTimeout(() => speak(textToSpeak), index * 2000); // Adjust delay as needed
+        });
+        setTimeout(() => setSpeaking(false), recipe.steps.length * 2000); // Adjust delay as needed
+      };
+
+  return (
+    <div className=' flex flex-col w-full py-12 px-24 '>
+        <div className=' flex flex-col gap-5 p-5 rounded-md bg-dorange border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'>
+            <div className="flex flex-row w-full gap-5 justify-start items-center">
+            <img className=' w-fit h-fit rounded-md border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' src={image} alt="" />
+            <h2 className=' text-5xl font-semibold '>{name}</h2>
+            </div>
+            <div className="flex flex-col gap-3 w-full">
             {
               recipe.steps.map((step, index) => {
                 return (
@@ -285,13 +327,19 @@ export default function RecipeId() {
               })
             }
           </div>
-          <button
+          <Button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
             onClick={handleSpeakClick}
             disabled={speaking}
           >
             {speaking ? 'Speaking...' : 'Speak Recipe'}
-          </button>
+          </Button>
+        </div>
+        <div className=' flex w-full p-3'>
+        <CanvasJSChart options = {options} 
+				/* onRef={ref => this.chart = ref} */
+				/* containerProps={{ width: '100%', height: '300px' }} */
+			/>
         </div>
       </div>
     );
