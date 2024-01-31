@@ -7,7 +7,7 @@ function NavBar() {
 	const {pathname} = useLocation()
 	const {user, auth} = store()
 	return (
-		<div className={"w-screen pr-4"}>
+		<div className={"w-screen pr"}>
 			<div className={`border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
 				<div className={"bg-white flex flex-row justify-between"}>
 					<Link to={"/"}>

@@ -11,6 +11,7 @@ import NonVegIcon from "../assets/nonveg.png"
 import Button from "../components/Button.jsx";
 import Input from "../components/Input.jsx";
 import store from "../lib/zustand.js";
+import {useNavigate} from "react-router-dom";
 
 const ONBOARDING_PRESETS = {
 	"Jain": {
@@ -48,6 +49,8 @@ const ONBOARDING_PRESETS = {
 function OnboardingPage() {
 	const {backend_url, setAuth, setMessage, setType, setToast} = store()
 
+	const navigate = useNavigate()
+
 	const [userProfile, setUserProfile] = useState({
 		prefers: [],
 		avoids: [],
@@ -70,7 +73,7 @@ function OnboardingPage() {
 
 		try {
 			const res = await fetch(`${url}/auth/onboard`, {
-				method: "POST",
+				method: "PUT",
 				body: JSON.stringify(userProfile),
 				headers: {
 					"Content-Type": "application/json",
@@ -170,7 +173,7 @@ function OnboardingPage() {
 					</>
 				}
 			</div>
-			<form className={"w-[80vw] flex flex-grow flex-col gap-8"}>
+			<form className={"w-[80vw] flex flex-grow flex-col gap-8"} onSubmit={handleOnboard}>
 				<Paper>
 					<div className={"flex-grow flex flex-col gap-4 bg-lgreen p-4"}>
 						<div className={"font-bold text-2xl"} ref={firstInput}>I prefer :</div>
