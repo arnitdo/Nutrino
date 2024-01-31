@@ -153,7 +153,7 @@ export default function Recipe() {
             )}
             <div className="flex flex-row w-full justify-between gap-8 items-center">
               <Button color='secondary' grow onClick={switchCamera}>Switch Camera</Button>
-              <Button color='lavender' grow onClick={captureFrame}>Capture Frame</Button>
+              <Button color='primary' grow onClick={captureFrame}>Capture Frame</Button>
             </div>
           </div>
           {capturedFrame ? (

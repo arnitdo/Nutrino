@@ -388,14 +388,13 @@ export default function RecipeId() {
 
     const [activeIndex, setActiveIndex] = useState(-1)
     return (
-        <div className='flex flex-col gap-4 w-screen px-[10vw] py-[10vh] bg-lorange'>
-            <div className="flex flex-row w-full gap-5 justify-start items-center">
+        <div className='flex flex-col gap-4 w-screen px-[10vw] py-[10vh] bg-lavender'>
+            <div className="flex flex-row w-full gap-5 justify-between items-center">
                 <img className=' w-fit h-fit rounded-md border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' src={image} alt="" />
                 <h2 className=' text-5xl font-extrabold '>{name}</h2>
-                <Button grow className=' text-white font-bold py-2 px-4 rounded'
+                <Button className=' text-white font-bold py-2 px-4 rounded'
                     onClick={handleSpeakClick}
                     disabled={speaking}>
-
                     <GiSpeaker className={"h-6 w-6"} />
                 </Button>
             </div>
@@ -408,16 +407,16 @@ export default function RecipeId() {
                                 <StepsAccordion key={index} question={`Step ${upperStep.number}`} active={activeIndex === index} setActive={setActiveIndex} index={index}>
                                     <div className={`p-2 flex flex-col ${index % 2 ? "bg-lgreen" : "bg-lorange"}  gap-2 w-full`}>
                                         {upperStep.equipment.length > 0 ?
-                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                            <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Equipments&nbsp;:</h3>
                                                 <p className='font-normal'>{(Array.from(upperStep.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
                                             </div> : <></>}
                                         {upperStep.ingredients.length > 0 ?
-                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                            <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Ingredients&nbsp;:</h3>
                                                 <p className='font-normal'>{(Array.from(upperStep.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
                                             </div> : <></>}
-                                        <div className='flex flex-row gap-1 items-start justify-start'>
+                                        <div className='flex flex-col gap-1 items-start justify-between'>
                                             <h3 className='text-lg font-bold text-nowrap'>Procedure&nbsp;:</h3>
                                             <p className='font-normal pt-[2.5px] '>{upperStep.step}</p>
                                         </div>
@@ -426,16 +425,16 @@ export default function RecipeId() {
                                 <StepsAccordion key={index} question={`Step ${lowerStep.number}`} active={activeIndex === (5 + index)} setActive={setActiveIndex} index={5 + index}>
                                     <div className={`p-2 flex flex-col ${(index + 5) % 2 ? "bg-lgreen" : "bg-lorange"}  gap-2 w-full`}>
                                         {lowerStep.equipment.length > 0 ?
-                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                            <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Equipments&nbsp;:</h3>
                                                 <p className='font-normal'>{(Array.from(lowerStep.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
                                             </div> : <></>}
                                         {lowerStep.ingredients.length > 0 ?
-                                            <div className='flex flex-row gap-1 items-center justify-start'>
+                                            <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Ingredients&nbsp;:</h3>
                                                 <p className='font-normal'>{(Array.from(lowerStep.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
                                             </div> : <></>}
-                                        <div className='flex flex-row gap-1 items-start justify-start'>
+                                        <div className='flex flex-col gap-1 items-start justify-between'>
                                             <h3 className='text-lg font-bold text-nowrap'>Procedure&nbsp;:</h3>
                                             <p className='font-normal pt-[2.5px] '>{lowerStep.step}</p>
                                         </div>

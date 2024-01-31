@@ -8,6 +8,7 @@ import Recipe from "./pages/Recipe.jsx";
 import Homepage from "./pages/Homepage.jsx";
 import Footer from "./pages/Footer.jsx";
 import RecipeId from "./pages/RecipeId.jsx";
+import Profile from "./pages/Profile.jsx";
 import Chatbot from "./pages/Chatbot.jsx";
 import ProductScanner from "./pages/ProductScanner.jsx";
 import Community from "./pages/Community.jsx";
@@ -29,6 +30,7 @@ function App() {
 					<Route path={"/recipe/:id"} element={<RecipeId />} />
 					<Route path={"/productscanner"} element={<ProductScanner />} />
 					<Route path={"/community"} element={<Community />} />
+					<Route path={"/profile"} element={<Profile />} />
 				</Routes>
 				<Footer/>
 			</BrowserRouter>
