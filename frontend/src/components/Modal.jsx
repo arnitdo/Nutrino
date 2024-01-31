@@ -22,6 +22,7 @@ export default function Modal({active, setActive, children, title}) {
       role="dialog"
       aria-modal="true"
       className="fixed bottom-8 right-8 h-[440px] flex w-[330px] flex-col justify-center items-center"
+      style={{ zIndex: isVisible ? 1000 : -1000 }}
     >
       <div
         style={{
