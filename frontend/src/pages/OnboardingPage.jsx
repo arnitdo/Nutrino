@@ -10,6 +10,7 @@ import VegIcon from "../assets/veg.png"
 import NonVegIcon from "../assets/nonveg.png"
 import Button from "../components/Button.jsx";
 import Input from "../components/Input.jsx";
+import store from "../lib/zustand.js";
 
 const ONBOARDING_PRESETS = {
 	"Jain": {
@@ -45,6 +46,8 @@ const ONBOARDING_PRESETS = {
 };
 
 function OnboardingPage() {
+	const {backend_url, setAuth, setMessage, setType, setToast} = store()
+
 	const [userProfile, setUserProfile] = useState({
 		prefers: [],
 		avoids: [],
@@ -55,6 +58,45 @@ function OnboardingPage() {
 	})
 
 	const firstInput = useRef(null)
+
+	const handleOnboard = async (e) => {
+		e.preventDefault()
+		const url = backend_url
+
+		const authToken = localStorage.getItem("auth-token")
+		if (!authToken) {
+			return
+		}
+
+		try {
+			const res = await fetch(`${url}/auth/onboard`, {
+				method: "POST",
+				body: JSON.stringify(userProfile),
+				headers: {
+					"Content-Type": "application/json",
+					"auth-token": authToken
+				}
+			})
+			const data = await res.json()
+			if (data.error) {
+				setMessage(data.error)
+				setType("danger")
+				setToast(true)
+				return
+			}
+			const token = data.authToken
+			localStorage.setItem("auth-token", token)
+			setAuth(true)
+			setMessage("Preferences Updated!")
+			setType("success")
+			setToast(true)
+			navigate("/me")
+		} catch (error) {
+			setMessage("Something went wrong!")
+			setType("danger")
+			setToast(true)
+		}
+	}
 
 	return (
 		<div

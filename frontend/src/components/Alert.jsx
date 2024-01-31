@@ -38,7 +38,7 @@ export default function Alert() {
 			role="alert"
 			className={`${
 				toast ? "translate-y-0 opacity-100" : "-translate-y-[20vh] opacity-0"
-			} transition-all fixed top-[10vh] right-0 left-0 flex justify-center items-center`}>
+			} transition-all fixed top-[10vh] right-0 left-0 flex justify-center items-center pointer-events-none`}>
 			<div
 				role="alert"
 				className={`flex w-fit items-center justify-center ${ALERT_COLOR_MAP[type]} rounded-md border-2 border-black p-5 px-8 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}
