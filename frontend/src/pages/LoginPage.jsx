@@ -11,12 +11,12 @@ import OrangeBG from "../assets/orange_bg.jpeg"
 export default function LoginPage() {
 	const [email, setemail] = useState("")
 	const [password, setpassword] = useState("")
-	const {setToast, setMessage, setAuth} = store()
+	const {setToast, setMessage, setAuth, backend_url} = store()
 	const navigate = useNavigate()
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
-		const url = import.meta.env.VITE_BACKEND_URL
+		const url = backend_url
 		try {
 			const res = await fetch(`${url}/auth/login`, {
 				method: "POST",
