@@ -47,7 +47,7 @@ export default function LoginPage() {
 			style={{backgroundImage: `url(${OrangeBG})`}}
 			className={"w-screen flex-grow flex justify-center items-center"}
 		>
-			<Card heading={"LOGIN"}>
+			<Card heading={"LOGIN"} headingColor={"bg-dgreen"}>
 				<form onSubmit={(e) => handleLogin(e)}>
 					<div className={"flex flex-col gap-2"}>
 						<p className="font-bold mt-2">Email :</p>
