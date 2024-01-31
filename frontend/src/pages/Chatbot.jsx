@@ -1,66 +1,62 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Button from '../components/Button';
-import {BsChatFill} from 'react-icons/bs';
+import { BsChatFill } from 'react-icons/bs';
 import Modal from '../components/Modal';
 import store from '../lib/zustand';
-import Input from "../components/Input.jsx";
 
 const Chatbot = () => {
-	const [chatbotActive, setChatbotActive] = useState(false);
-	const [chatHistory, setChatHistory] = useState([]);
-	const [inputText, setInputText] = useState('');
-	const {api} = store()
+  const [chatbotActive, setChatbotActive] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [inputText, setInputText] = useState('');
+  const { api } = store();
 
-	const handleSendMessage = () => {
-		setInputText("")
-		fetch(`https://api.spoonacular.com/recipes/quickAnswer?q=${encodeURIComponent(inputText)}&apiKey=${api}`)
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.answer.trim().length == 0) return;
-				setChatHistory((prevHist) => {
-					return [
-						...prevHist,
-						{text: inputText, sender: 'user'},
-						{text: data.answer, sender: 'bot'}
-					]
-				});
-			})
-			.catch((error) => {
-				setChatHistory([...chatHistory, {text: 'Error fetching chatbot answer', sender: 'bot'}]);
-			});
-	};
 
-	return (
-		<div
-			className="cursor-pointer fixed bottom-10 right-10 p-6 rounded-[50%] border-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-			onClick={() => setChatbotActive((prevState) => !prevState)}>
-			<BsChatFill className="h-6 w-6 "/>
-			<Modal active={chatbotActive} setActive={setChatbotActive} title={"Nutrino ChatBot"}>
-				<div className="flex flex-grow gap-4 pt-8 flex-col overflow-scroll justify-between">
-					<div className={"h-[360px] flex flex-col gap-4 overflow-scroll"}>
-						{chatHistory.map((message, index) => (
-							<div
-								key={index}
-								className={`rounded p-2 ${message.sender === 'user' ? 'bg-lgreen' : 'bg-lorange'}`}
-							>
-								{message.text}
-							</div>
-						))}
-					</div>
-					<div className="flex flex-row justify-end items-center">
-						<Input
-							type="text"
-							value={inputText}
-							setValue={setInputText}
-							placeholder="Type your message..."
-							grow
-						/>
-						<Button onClick={handleSendMessage}>Send</Button>
-					</div>
-				</div>
-			</Modal>
-		</div>
-	);
+  const handleSendMessage = () => {
+    setChatHistory([...chatHistory, { text: inputText, sender: 'user' }]);
+    setInputText('');
+
+    fetch(`https://api.spoonacular.com/recipes/quickAnswer?q=${encodeURIComponent(inputText)}&apiKey=${api}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setChatHistory([...chatHistory, { text: data.answer, sender: 'bot' }]);
+      })
+      .catch((error) => {
+        console.error('Error fetching chatbot answer:', error);
+        setChatHistory([...chatHistory, { text: 'Error fetching chatbot answer', sender: 'bot' }]);
+      });
+  };
+
+  return (
+    <div className="cursor-pointer fixed bottom-10 right-10 bg-dgreen p-6 rounded-[50%] border-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" onClick={() => setChatbotActive((prevState) => !prevState)}>
+      <BsChatFill className="h-6 w-6 " color="black" />
+      <Modal active={chatbotActive} setActive={setChatbotActive}>
+        <div className="flex flex-col h-full justify-between">
+          <div className="chat-history">
+            {chatHistory.map((message, index) => (
+              <div key={index} className={message.sender === 'user' ? 'user-message' : 'bot-message'}>
+                {message.text}
+              </div>
+            ))}
+          </div>
+          <div className="flex">
+            <div className="flex-grow mr-2">
+              <input
+                className="rounded-md border-2 border-black p-[10px] font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none w-full"
+                type="text"
+                name="text"
+                id="text"
+                value={inputText}
+                onChange={(e) => {
+                  setInputText(e.target.value)
+                }}
+              />
+            </div>
+            <Button className="w-[10px]" onClick={handleSendMessage}>></Button>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
 };
 
 export default Chatbot;
