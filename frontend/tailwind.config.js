@@ -10,7 +10,8 @@ export default {
         lgreen: "#bafca2",
         dgreen: "#2fff2f",
         lorange: "#f8d6b3",
-        dorange: "#ffa07a"
+        dorange: "#ffa07a",
+        lavender: "#bc95d4"
       },
       animation: {
         marquee: "marquee 10s linear infinite",

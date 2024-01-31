@@ -12,17 +12,8 @@ export default function Recipe() {
   const [capturedFrame, setCapturedFrame] = useState(null);
   const [ingredients, setIngredients] = useState([])
   const [dish, setDish] = useState("")
-  const [recipes, setrecipes] = useState([{"id":638245,"title":"Chicken Pasta With Anchovy Rosemary Sauce","image":"https://spoonacular.com/recipeImages/638245-312x231.jpg","imageType":"jpg"},
-  {"id":638236,"title":"Chicken Pasta Primavera - Flower Patch Farmgirl Style","image":"https://spoonacular.com/recipeImages/638236-312x231.jpg","imageType":"jpg"},
-  {"id":606953,"title":"Cajun Chicken Pasta","image":"https://spoonacular.com/recipeImages/606953-312x231.jpg","imageType":"jpg"},
-  {"id":1096054,"title":"Spicy Chicken Pasta and Peas with Sun-Dried Tomato Sauce","image":"https://spoonacular.com/recipeImages/1096054-312x231.jpg","imageType":"jpg"},
-  {"id":645651,"title":"Grilled Chicken Pasta With Gorgonzola Walnut Cream Sauce","image":"https://spoonacular.com/recipeImages/645651-312x231.jpg","imageType":"jpg"},
-  {"id":637923,"title":"Chicken and Penne Pasta With Garlic Rosemary Sauce","image":"https://spoonacular.com/recipeImages/637923-312x231.jpg","imageType":"jpg"},
-  {"id":654901,"title":"Pasta With Chicken and Broccoli","image":"https://spoonacular.com/recipeImages/654901-312x231.jpg","imageType":"jpg"},
-  {"id":654913,"title":"Pasta With Chicken and Mushrooms","image":"https://spoonacular.com/recipeImages/654913-312x231.jpg","imageType":"jpg"},
-  {"id":638235,"title":"Chicken Parmesan With Pasta","image":"https://spoonacular.com/recipeImages/638235-312x231.jpg","imageType":"jpg"},
-  {"id":655582,"title":"Penne Pasta With Chicken And Mushrooms","image":"https://spoonacular.com/recipeImages/655582-312x231.jpg","imageType":"jpg"}])
-  const { backend_url, api } = store()
+  const [recipes, setrecipes] = useState([])
+  const { backend_url, api, user } = store()
   const getMedia = async () => {
     try {
       const constraints = {
@@ -61,9 +52,12 @@ export default function Recipe() {
       const data = await res.json()
       console.log(data);
       const arr = Array.from(data.result.split(",").map(i=>i.trim()))
+      const nonAllergic = arr.filter((a)=>(!user.allergies.includes(a)&&!user.avoids.includes(a)))
+      for(let i=0;i < nonAllergic.length; i=i+2){
+      handleIngredientSearch(nonAllergic.length>i+1?[nonAllergic[i],nonAllergic[i+1]]:[nonAllergic[i]])
+      }
       console.log({ arr })
       setIngredients(arr)
-      handleIngredientSearch(arr)
     }, 'image/jpeg');
   };
 
@@ -84,7 +78,7 @@ export default function Recipe() {
     })
     const data = await res.json()
     console.log(data);
-    setrecipes(data.results)
+    setrecipes((prev)=>[...prev,...data.results])
   }
 
   const handleRecipeSearch = async () => {
@@ -103,13 +97,13 @@ export default function Recipe() {
   }
   return (
     <div className=' flex w-full flex-col bg-lorange' >
-      <div className={`flex flex-col flex-grow items-center ${recipes.length === 0 ? "bg-lorange" : "bg-black"}`}>
-        <div className={`flex flex-row p-8 ${recipes.length === 0 ? "bg-lorange justify-center" : "justify-between bg-black"} items-start w-full`}>
+      <div className={`flex flex-col flex-grow items-center ${recipes.length === 0 ? "bg-lorange" : "bg-lavender"}`}>
+        <div className={`flex flex-row p-8 ${recipes.length === 0 ? "bg-lorange justify-center" : "justify-between bg-lavender"} items-start w-full`}>
           <div className="flex flex-col gap-4">
             {capturedFrame ? (
               null
             ) : (
-              <h1 className={`text-3xl font-bold flex-grow py-4 text-center ${recipes.length === 0 ? "text-black" : "text-white"}`}> SCAN YOUR INGREDIENTS HERE</h1>
+              <h1 className={`text-3xl font-bold flex-grow py-4 text-center ${recipes.length === 0 ? "text-black" : "text-black"}`}> SCAN YOUR INGREDIENTS HERE</h1>
             )
             }
             {capturedFrame ? (
@@ -124,7 +118,7 @@ export default function Recipe() {
           </div>
           {capturedFrame ? (
             <div className=' flex flex-col flex-grow items-start justify-between gap-4 p-8'>
-              <h1 className={`font-extrabold ${recipes.length === 0 ? "text-black" : "text-white"} text-4xl`}>{capturedFrame ? "This image consists of" : ""}</h1>
+              <h1 className={`font-extrabold ${recipes.length === 0 ? "text-black" : "text-black"} text-4xl`}>{capturedFrame ? "This image consists of" : ""}</h1>
               <div className=' flex flex-col gap-2'>
                 {capturedFrame && ingredients.length === 0 ?
                   (
@@ -132,7 +126,7 @@ export default function Recipe() {
                   )
                   :
                   (
-                    <ul>
+                    <ul className=' list-disc px-8'>
                       {
                         ingredients.map((ingredient, index) => {
                           return <li className='font-bold text-xl' key={index}>{ingredient}</li>
