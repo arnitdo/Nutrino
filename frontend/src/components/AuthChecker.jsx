@@ -34,7 +34,7 @@ export default function AuthChecker() {
 		}else{
       console.log(location.pathname!==("/"))
       if(!location.pathname.includes("login")&&!location.pathname.includes("signup")&&location.pathname!=="/"){
-        navigate("signup")
+        // navigate("signup")
       }
     }
 	}, [auth, location.pathname])

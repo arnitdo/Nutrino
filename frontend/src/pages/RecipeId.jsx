@@ -340,6 +340,7 @@ export default function RecipeId() {
             const data = await res.json()
 
             setRecipe(data[0])
+            console.log(data);
             const res2 = await fetch(`https://api.spoonacular.com/recipes/${id}/tasteWidget.json?apiKey=${api}`)
             const data2 = await res2.json()
             setTaste(data2)
@@ -351,7 +352,7 @@ export default function RecipeId() {
         }
         //https://api.spoonacular.com/recipes/{id}/tasteWidget.json
 
-        // getRecipe()
+        getRecipe()
     }, [])
 
 
@@ -366,25 +367,12 @@ export default function RecipeId() {
     const handleSpeakClick = () => {
         setSpeaking(true);
         recipe.steps.forEach((step, index) => {
+            console.log(step);
             const textToSpeak = `Step ${step.number}: ${step.step}`;
             setTimeout(() => speak(textToSpeak), index * 2000); // Adjust delay as needed
         });
         setTimeout(() => setSpeaking(false), recipe.steps.length * 2000); // Adjust delay as needed
     };
-
-    const firstRow = recipe.steps.filter((elem, idx) => {
-        return idx <= 4
-    })
-
-    const secondRow = recipe.steps.filter((elem, idx) => {
-        return (idx > 4)
-    })
-
-    const recipeColumns = Array(5).fill(0).map((_, idx) => {
-        const upperStep = firstRow[idx];
-        const lowerStep = secondRow[idx];
-        return [upperStep, lowerStep]
-    })
 
     const [activeIndex, setActiveIndex] = useState(-1)
     return (
@@ -398,51 +386,33 @@ export default function RecipeId() {
                     <GiSpeaker className={"h-6 w-6"} />
                 </Button>
             </div>
-            <div className="flex flex-row gap-4 w-full">
+            <div className="grid grid-cols-5 gap-4 w-full">
                 {
-                    recipeColumns.map((stepPair, index) => {
-                        const [upperStep, lowerStep] = stepPair
+                    recipe?recipe.steps.map((upperStep, index) => {
                         return (
                             <div className={"flex flex-col gap-4"}>
-                                <StepsAccordion key={index} question={`Step ${upperStep.number}`} active={activeIndex === index} setActive={setActiveIndex} index={index}>
+                                {upperStep?<StepsAccordion key={index} question={`Step ${upperStep?upperStep.number:""}`} active={activeIndex === index} setActive={setActiveIndex} index={index}>
                                     <div className={`p-2 flex flex-col ${index % 2 ? "bg-lgreen" : "bg-lorange"}  gap-2 w-full`}>
-                                        {upperStep.equipment.length > 0 ?
+                                        {upperStep?upperStep.equipment.length > 0 ?
                                             <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Equipments&nbsp;:</h3>
                                                 <p className='font-normal'>{(Array.from(upperStep.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
-                                            </div> : <></>}
-                                        {upperStep.ingredients.length > 0 ?
+                                            </div> : <></>:<></>}
+                                        {upperStep?upperStep.ingredients.length > 0 ?
                                             <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Ingredients&nbsp;:</h3>
                                                 <p className='font-normal'>{(Array.from(upperStep.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
-                                            </div> : <></>}
+                                            </div> : <></>: <></>}
                                         <div className='flex flex-col gap-1 items-start justify-between'>
                                             <h3 className='text-lg font-bold text-nowrap'>Procedure&nbsp;:</h3>
-                                            <p className='font-normal pt-[2.5px] '>{upperStep.step}</p>
+                                            <p className='font-normal pt-[2.5px] '>{upperStep?upperStep.step:""}</p>
                                         </div>
                                     </div>
-                                </StepsAccordion>
-                                <StepsAccordion key={index} question={`Step ${lowerStep.number}`} active={activeIndex === (5 + index)} setActive={setActiveIndex} index={5 + index}>
-                                    <div className={`p-2 flex flex-col ${(index + 5) % 2 ? "bg-lgreen" : "bg-lorange"}  gap-2 w-full`}>
-                                        {lowerStep.equipment.length > 0 ?
-                                            <div className='flex flex-col gap-1 items-start justify-between'>
-                                                <h3 className='text-lg font-bold'>Equipments&nbsp;:</h3>
-                                                <p className='font-normal'>{(Array.from(lowerStep.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
-                                            </div> : <></>}
-                                        {lowerStep.ingredients.length > 0 ?
-                                            <div className='flex flex-col gap-1 items-start justify-between'>
-                                                <h3 className='text-lg font-bold'>Ingredients&nbsp;:</h3>
-                                                <p className='font-normal'>{(Array.from(lowerStep.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
-                                            </div> : <></>}
-                                        <div className='flex flex-col gap-1 items-start justify-between'>
-                                            <h3 className='text-lg font-bold text-nowrap'>Procedure&nbsp;:</h3>
-                                            <p className='font-normal pt-[2.5px] '>{lowerStep.step}</p>
-                                        </div>
-                                    </div>
-                                </StepsAccordion>
+                                </StepsAccordion>:<></>}
+                                
                             </div>
                         )
-                    })
+                    }):<></>
                 }
             </div>
             {/* <Button
@@ -456,18 +426,18 @@ export default function RecipeId() {
             <div className='flex w-full flex-row gap-4'>
                 <Paper grow>
                     <div className={"p-4 bg-dorange"}>
-                        <CanvasJSChart options={options}
+                        {recipe&&<CanvasJSChart options={options}
                         /* onRef={ref => this.chart = ref} */
                         /* containerProps={{ width: '100%', height: '300px' }} */
-                        />
+                        />}
                     </div>
                 </Paper>
                 <Paper grow>
                     <div className={"p-4 bg-dorange"}>
-                        <CanvasJSChart options={options2}
+                        {recipe&&<CanvasJSChart options={options2}
                         /* onRef={ref => this.chart = ref} */
                         /* containerProps={{ width: '100%', height: '300px' }} */
-                        />
+                        />}
                     </div>
                 </Paper>
             </div>

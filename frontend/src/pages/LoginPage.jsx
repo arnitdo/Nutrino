@@ -37,7 +37,7 @@ export default function LoginPage() {
 			setMessage("Login successful")
 			setType("success")
 			setToast(true)
-			navigate("/me")
+			navigate("/profile")
 		} catch (error) {
 			setMessage("Something went wrong")
 			setType("danger")

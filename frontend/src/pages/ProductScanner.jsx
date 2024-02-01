@@ -1,8 +1,49 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import store from '../lib/zustand';
 import Button from '../components/Button';
 import Loader from '../components/Loader';
+import AltModal from '../components/AltModal';
 
+
+const ItemCard = ({allergic, ingredient, index}) => {
+	const [alt,setAlt] = useState(null)
+	const {api} = store()
+	const [active,setActive] = useState(false)
+	let ctr=0
+	const getAlternative = async () => {
+		const nm = ingredient.trim().split(" ")[0]
+		console.log(nm);
+	  const res = await fetch(`https://api.spoonacular.com/food/ingredients/substitutes?apiKey=${api}&ingredientName=${nm.toLowerCase()}`, {
+		method: "GET",
+		headers: {
+		  "Content-Type": "application/json"
+		}
+	  })
+	  const data = await res.json()
+	  console.log(data);
+	  if(data.status==="failure"){
+		setAlt(data.message)
+	  }else{
+	  setAlt(data.substitutes)
+	  }
+	}
+	useEffect(() => {
+		if(allergic.includes(ingredient)&&ctr===0){
+			// getAlternative()
+			ctr=1
+			}
+	}, [])
+	
+	return (
+	<li className={`font-bold text-xl ${!allergic.includes(ingredient)?"":" text-red-800 flex flex-row gap-2 justify-start items-center"} `} key={index}>
+	  {ingredient}
+	  <AltModal active={active} setActive={setActive} alt={alt} className=' fixed'>
+										  </AltModal>
+	  {allergic.includes(ingredient)?(
+		<button onClick={()=>{setActive(true)}} className=' text-xs p-1 border rounded-xl bg-dorange'>Get Alternative</button>
+	  ):<></>}</li>
+	)
+  }
 export default function ProductScanner() {
 	const videoRef = useRef(null);
 	const [rearCamera, setRearCamera] = useState(true);
@@ -89,40 +130,50 @@ export default function ProductScanner() {
 
 	return (
 		<div className={`flex w-full h-full justify-center items-center ${ingredients.length > 0 ? allergic.length > 0 ? " bg-red-600" : " bg-dgreen" : ""}`}>
-			<div className='flex flex-col gap-5'>
-				<div className="flex flex-col gap-5 px-8">
-					<h1 className='font-extrabold text-2xl text-center pt-3'>Capture to extract ingredients</h1>
-					{capturedFrame ? (
-						<img className='rounded-lg' src={capturedFrame} alt="Captured Frame" />
-					) : (
-						<video className='rounded-lg' ref={videoRef} autoPlay playsInline />
-					)}
-					<div className="flex flex-row w-full justify-between items-center">
-						<Button color='secondary' onClick={switchCamera}>Switch Camera</Button>
-						<Button color='primary' onClick={captureFrame}>Capture Frame</Button>
-					</div>
-				</div>
-				<div className='flex flex-col gap-5 w-full items-center pb-10'>
-					<h1 className='font-extrabold text-2xl text-center'>{capturedFrame ? "This image consists of" : ""}</h1>
-					<div className='flex flex-col gap-2 items-center'>
-						<ul className=' list-disc'>
-							{capturedFrame && ingredients.length === 0 ? (
-								<Loader />
-							) : (
-								ingredients.map((ingredient, index) => (
-									<li className={`font-bold text-xl ${allergic.includes(ingredient) ? " text-red-800 flex flex-row gap-3 justify-start items-center " : ""}`} key={index}>{ingredient}
-										{allergic.includes(ingredient)?
-											<span className=' py-1 px-2 text-xs rounded-xl bg-dorange  border border-slate-100'>
-											Generate Alternative
-										</span>:
-										<></>
-										}</li>
-								))
-							)}
-						</ul>
-					</div>
-				</div>
-			</div>
+			<div className={`flex flex-col flex-grow items-center ${true ? "bg-lorange" : "bg-lorange"}`}>
+        <div className={`flex flex-row p-8 ${capturedFrame ? "bg-lorange justify-between" : "justify-center bg-lorange"} items-start w-full`}>
+          <div className="flex flex-col gap-4">
+            {capturedFrame ? (
+              null
+            ) : (
+              <h1 className={`text-3xl font-bold flex-grow py-4 text-center ${true ? "text-black" : "text-black"}`}> SCAN YOUR PRODUCTS HERE</h1>
+            )
+            }
+            {capturedFrame ? (
+              <img className=' rounded-lg' src={capturedFrame} alt="Captured Frame" />
+            ) : (
+              <video className=' rounded-lg' ref={videoRef} autoPlay playsInline />
+            )}
+            <div className="flex flex-row w-full justify-between gap-8 items-center">
+              <Button color='secondary' grow onClick={switchCamera}>Switch Camera</Button>
+              <Button color='primary' grow onClick={captureFrame}>Capture Frame</Button>
+            </div>
+          </div>
+          {capturedFrame ? (
+            <div className=' flex flex-col flex-grow items-start justify-between gap-4 p-8'>
+              <h1 className={`font-extrabold ${true ? "text-black" : "text-black"} text-4xl`}>{capturedFrame ? "This image consists of" : ""}</h1>
+              <div className=' flex flex-col gap-2'>
+                {capturedFrame && ingredients.length === 0 ?
+                  (
+                    <Loader />
+                  )
+                  :
+                  (
+                    <ul className=' list-disc px-8'>
+                      {
+                        ingredients.map((ingredient, index) => {
+                          return <ItemCard ingredient={ingredient} allergic={allergic} index={index} />
+                        })
+                      }
+                    </ul>
+                  )
+                }
+              </div>
+            </div>
+          ) : (null)}
+        </div>
+        <div className={"flex-grow w-screen border-2 border-black"} />
+      </div>
 		</div>
 	);
 }

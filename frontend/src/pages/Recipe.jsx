@@ -5,34 +5,45 @@ import Loader from '../components/Loader';
 import Input from '../components/Input';
 import ImageCard from '../components/ImageCard';
 import { Link } from 'react-router-dom';
-import Modal from '../components/Modal';
 import AltModal from '../components/AltModal';
 
-const ItemCard = ({nonAllergic, ingredient, index}) => {
-  const [alt,setAlt] = useState(null)
-  const [active,setActive] = useState(false)
-  const getAlternative = async (ingredient) => {
-    const res = await fetch(`https://api.spoonacular.com/food/ingredients/substitutes?apiKey=${api}&ingredientName=${ingredient}`, {
+const ItemCard = ({ nonAllergic, ingredient, index }) => {
+  const [alt, setAlt] = useState(null)
+  const { api } = store()
+  const [active, setActive] = useState(false)
+  let ctr = 0
+  const getAlternative = async () => {
+    const nm = ingredient.trim().split(" ")[0]
+    console.log(nm);
+    const res = await fetch(`https://api.spoonacular.com/food/ingredients/substitutes?apiKey=${api}&ingredientName=${nm.toLowerCase()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
       }
     })
     const data = await res.json()
-    setAlt(data.substitutes)
+    console.log(data);
+    if (data.status === "failure") {
+      setAlt(data.message)
+    } else {
+      setAlt(data.substitutes)
+    }
   }
   useEffect(() => {
-    getAlternative()
+    if (!nonAllergic.includes(ingredient) && ctr === 0) {
+      getAlternative()
+      ctr = 1
+    }
   }, [])
-  
+
   return (
-  <li className={`font-bold text-xl ${nonAllergic.includes(ingredient)?"":" text-red-800 flex flex-row gap-2 justify-start items-center"} `} key={index}>
-    {ingredient}
-    <AltModal active={active} setActive={setActive} text={alt} className=' fixed'>
-										</AltModal>
-    {!nonAllergic.includes(ingredient)?(
-      <button onClick={()=>{setActive(true)}} className=' text-xs p-1 border rounded-xl bg-dorange'>Get Alternative</button>
-    ):<></>}</li>
+    <li className={`font-bold text-xl ${nonAllergic.includes(ingredient) ? "" : " text-red-800 flex flex-row gap-2 justify-start items-center"} `} key={index}>
+      {ingredient}
+      <AltModal active={active} setActive={setActive} alt={alt} className=' fixed'>
+      </AltModal>
+      {!nonAllergic.includes(ingredient) ? (
+        <button onClick={() => { setActive(true) }} className=' text-xs p-1 border rounded-xl bg-dorange'>Get Alternative</button>
+      ) : <></>}</li>
   )
 }
 export default function Recipe() {
@@ -62,16 +73,16 @@ export default function Recipe() {
     setRearCamera(!rearCamera);
     getMedia();
   };
-  
-	function includesAnyWord(inputList, searchString) {
-		// Convert the search string into an array of words
-		inputList = inputList.map((i) => i.toLowerCase())
-		searchString = searchString.toLowerCase()
-		const searchWords = searchString.split(/\s+/);
 
-		// Check if any word from the search string is included in the list
-		return searchWords.some(word => inputList.includes(word));
-	}
+  function includesAnyWord(inputList, searchString) {
+    // Convert the search string into an array of words
+    inputList = inputList.map((i) => i.toLowerCase())
+    searchString = searchString.toLowerCase()
+    const searchWords = searchString.split(/\s+/);
+
+    // Check if any word from the search string is included in the list
+    return searchWords.some(word => inputList.includes(word));
+  }
   const captureFrame = () => {
     const canvas = document.createElement('canvas');
     const video = videoRef.current;
@@ -90,11 +101,11 @@ export default function Recipe() {
       })
       const data = await res.json()
       console.log(data);
-      const arr = Array.from(data.result.split(",").map(i=>i.trim()))
-      const nonAllergic = arr.filter((a)=>(!includesAnyWord(user.allergies,a)&&!includesAnyWord(user.avoids,a)))
+      const arr = Array.from(data.result.split(",").map(i => i.trim()))
+      const nonAllergic = arr.filter((a) => (!includesAnyWord(user.allergies, a) && !includesAnyWord(user.avoids, a)))
       setNonAllergic(nonAllergic)
-      for(let i=0;i < nonAllergic.length; i=i+2){
-      handleIngredientSearch(nonAllergic.length>i+1?[nonAllergic[i],nonAllergic[i+1]]:[nonAllergic[i]])
+      for (let i = 0; i < nonAllergic.length; i = i + 2) {
+        handleIngredientSearch(nonAllergic.length > i + 1 ? [nonAllergic[i], nonAllergic[i + 1]] : [nonAllergic[i]])
       }
       console.log({ arr })
       setIngredients(arr)
@@ -118,7 +129,7 @@ export default function Recipe() {
     })
     const data = await res.json()
     console.log(data);
-    setrecipes((prev)=>[...prev,...data.results])
+    setrecipes((prev) => [...prev, ...data.results])
   }
 
   const handleRecipeSearch = async () => {
