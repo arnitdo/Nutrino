@@ -78,13 +78,10 @@ router.delete('/:id', fetchuser, async (req, res) => {
 })
 
 //ROUTE 5: fetch note by id using: GET '/api/notes/fetch/:id'
-router.get('/fetch/:id', fetchuser, async (req, res) => {
+router.get('/fetch/:id', async (req, res) => {
     try {
-        const note = await Note.findById(req.params.id)
+        const note = await Recipe.findById(req.params.id)
         if (!note) { return res.status(404).send("Not found") }
-        if (note.user.toString() != req.user.id) {
-            return res.status(401).send("Not Allowed")
-        }
         return res.status(200).json(note);
     } catch (error) {
         return res.status(500).json({ error });
