@@ -137,8 +137,8 @@ export default function Recipe() {
   }
   return (
     <div className=' flex w-full flex-col bg-lorange' >
-      <div className={`flex flex-col flex-grow items-center ${recipes.length === 0 ? "bg-lorange" : "bg-lavender"}`}>
-        <div className={`flex flex-row p-8 ${recipes.length === 0 ? "bg-lorange justify-center" : "justify-between bg-lavender"} items-start w-full`}>
+      <div className={`flex flex-col flex-grow items-center ${recipes.length === 0 ? "bg-lorange" : "bg-lorange"}`}>
+        <div className={`flex flex-row p-8 ${capturedFrame ? "bg-lorange justify-between" : "justify-center bg-lorange"} items-start w-full`}>
           <div className="flex flex-col gap-4">
             {capturedFrame ? (
               null
@@ -181,7 +181,7 @@ export default function Recipe() {
         </div>
         <div className={"flex-grow w-screen border-2 border-black"} />
       </div>
-      <div className={"flex flex-col gap-2 flex-grow justify-between items-center p-8"}>
+      <div className={"flex flex-col gap-2 flex-grow justify-between items-center p-8 bg-lavender"}>
         <div className={`w-[80vw] flex flex-row gap-2 justify-center items-center`}>
           <Input placeholder='Search for dishes here' value={dish} grow setValue={setDish} />
           <Button onClick={() => { handleRecipeSearch() }}>Search</Button>

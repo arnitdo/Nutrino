@@ -21,18 +21,20 @@ export default function Modal({active, setActive, children, title}) {
     <div
       role="dialog"
       aria-modal="true"
+      style={{
+        pointerEvents: isVisible ? "auto" : "none"
+      }}
       className="fixed bottom-8 right-8 h-[440px] flex w-[330px] flex-col justify-center items-center"
-      style={{ zIndex: isVisible ? 1000 : -1000 }}
     >
       <div
         style={{
           opacity: isVisible ? '1' : '0',
-          visibility: isVisible ? 'visible' : 'hidden',
+          visibility: isVisible ? 'visible' : 'hidden'
         }}
-        className="w-[360px] flex-grow flex flex-col items-center justify-center rounded-md border-2 border-black bg-white p-10 pt-12 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
+        className="w-[360px] flex-grow flex flex-col items-center justify-center rounded-md border-2 border-black bg-white p-4 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
       >
         <button onClick={closeModal}>
-          <MdClose className="absolute right-3 top-3 h-6 w-6 bg-dgreen" />
+          <MdClose className="absolute right-3 top-3 h-6 w-6" />
         </button>
         {children}
       </div>

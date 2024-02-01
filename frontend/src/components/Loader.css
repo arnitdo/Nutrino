@@ -1,6 +1,6 @@
 .container {
     --uib-size: 60px;
-    --uib-color: aliceblue;
+    --uib-color: black;
     --uib-speed: 2.6s;
     --uib-dot-size: calc(var(--uib-size) * 0.23);
     position: relative;

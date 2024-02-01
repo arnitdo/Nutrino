@@ -19,8 +19,7 @@ function NavBar() {
 					<nav className={"gap-4 px-8 flex flex-row flex-grow justify-between items-center font-bold"}>
 						<div className={"px-4 flex flex-grow flex-row justify-between"}>
 							<Link to={"/"}>Home</Link>
-							<Link to={"/onboarding"}>Start</Link>
-							<Link to={"/recipe"}>Recipe&nbsp;</Link>
+							<Link to={"/recipe"}>Recipes</Link>
 							<Link to={"/productscanner"}>Product Scanner</Link>
 							<Link to={"/community"}>Community</Link>
 						</div>
