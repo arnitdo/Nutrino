@@ -419,24 +419,7 @@ export default function CommunityRecipeId() {
                     {speaking ? 'Speaking...' : 'Speak Recipe'}
                 </Button> */}
 
-            <div className='flex w-full flex-row gap-4'>
-                <Paper grow>
-                    <div className={"p-4 bg-dorange"}>
-                        {recipe&&<CanvasJSChart options={options}
-                        /* onRef={ref => this.chart = ref} */
-                        /* containerProps={{ width: '100%', height: '300px' }} */
-                        />}
-                    </div>
-                </Paper>
-                <Paper grow>
-                    <div className={"p-4 bg-dorange"}>
-                        {recipe&&<CanvasJSChart options={options2}
-                        /* onRef={ref => this.chart = ref} */
-                        /* containerProps={{ width: '100%', height: '300px' }} */
-                        />}
-                    </div>
-                </Paper>
-            </div>
+            
         </div>
     );
 }

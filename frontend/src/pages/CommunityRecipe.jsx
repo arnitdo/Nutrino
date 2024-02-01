@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import Input from '../components/Input2'
 import store from '../lib/zustand'
 import axios from 'axios'
+import {useNavigate} from "react-router-dom"
 
 export default function CommunityRecipe() {
     const fileInput = useRef(null)
@@ -15,6 +16,7 @@ export default function CommunityRecipe() {
     const [title, setTitle] = useState("")
     const [step, setstep] = useState([{equipment:'',ingredients:'',procedure:''}])
     const {backend_url} = store()
+    const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault()
         setsubmitStatus({ text: 'Image is being uploaded' })
@@ -33,6 +35,7 @@ export default function CommunityRecipe() {
             })
             const data = await res.json()
             console.log(data)
+            navigate("/community")
             return
         }
         const formData = new FormData();
@@ -58,6 +61,7 @@ export default function CommunityRecipe() {
                     }
                 })
                 const data = await res.json()
+                navigate("/community")
                 console.log(data)
             } else {
                 console.log({ text: 'Image could not be uploaded' })

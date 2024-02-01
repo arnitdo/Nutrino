@@ -3,6 +3,7 @@ const router = express.Router();
 import fetchuser from '../middleware/fetchuser.js';
 import Recipe from '../models/Recipe.js';
 import { body, validationResult } from 'express-validator';
+import Comment from '../models/Comment.js';
 
 //ROUTE 1: fetch all notes using: GET '/api/notes/fetch'
 router.get('/', async (req, res) => {
@@ -89,5 +90,28 @@ router.get('/fetch/:id', async (req, res) => {
 
 })
 
+router.post('/comment/:id',fetchuser, async(req, res)=> {
+    try {
+        const {content} = req.body;
+            const comment = await Comment.create({
+                content,
+                user:req.user.id,
+                about:req.params.id,
+                createdAt:Date.now()
+            })
+        return res.status(200).json(comment);
+    } catch (error) {
+        return res.status(500).json({ error });
+    }
+})
+
+router.get('/comment/:id',fetchuser, async(req, res)=> {
+    try {
+        const comment = await Comment.find({about:req.params.id})
+        return res.status(200).json(comment);
+    } catch (error) {
+        return res.status(500).json({ error });
+    }
+})
 const RecipeRoute = router;
 export default RecipeRoute;
