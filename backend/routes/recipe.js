@@ -105,7 +105,7 @@ router.post('/comment/:id',fetchuser, async(req, res)=> {
     }
 })
 
-router.get('/comment/:id',fetchuser, async(req, res)=> {
+router.get('/comment/:id', async(req, res)=> {
     try {
         const comment = await Comment.find({about:req.params.id})
         return res.status(200).json(comment);

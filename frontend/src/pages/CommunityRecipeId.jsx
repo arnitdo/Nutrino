@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import Paper from '../components/Paper'
 import CanvasJSReact from '@canvasjs/react-charts';
 import { GiSpeaker } from "react-icons/gi";
+import Input from '../components/Input'
 //var CanvasJSReact = require('@canvasjs/react-charts');
 
 var CanvasJS = CanvasJSReact.CanvasJS;
@@ -18,107 +19,8 @@ export default function CommunityRecipeId() {
     const query = new URLSearchParams(search)
     const name = query.get('name')
     const image = query.get('image')
-
-    const [taste, setTaste] = useState({
-        "sweetness": 28.79,
-        "saltiness": 26.74,
-        "sourness": 6.22,
-        "bitterness": 12.38,
-        "savoriness": 11.8,
-        "fattiness": 100,
-        "spiciness": 0
-    }
-    )
-    const options = {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1", // "light1", "dark1", "dark2"
-        backgroundColor: "transparent",
-        title: {
-            text: "Taste Analysis"
-        },
-        data: [{
-            type: "bar",
-            indexLabel: "{label}: {y}%",
-            startAngle: -90,
-            dataPoints: Array.from(Object.keys(taste).map((key) => ({ y: taste[key], label: key })))
-        }]
-    }
-
-
-    const [nutrients, setNutrients] = useState([
-        {
-            "name": "Calories",
-            "amount": 316.49,
-            "unit": "kcal",
-            "percentOfDailyNeeds": 15.82
-        },
-        {
-            "name": "Fat",
-            "amount": 12.09,
-            "unit": "g",
-            "percentOfDailyNeeds": 18.6
-        },
-        {
-            "name": "Saturated Fat",
-            "amount": 3.98,
-            "unit": "g",
-            "percentOfDailyNeeds": 24.88
-        },
-        {
-            "name": "Carbohydrates",
-            "amount": 49.25,
-            "unit": "g",
-            "percentOfDailyNeeds": 16.42
-        },
-        {
-            "name": "Net Carbohydrates",
-            "amount": 46.76,
-            "unit": "g",
-            "percentOfDailyNeeds": 17.0
-        },
-        {
-            "name": "Sugar",
-            "amount": 21.98,
-            "unit": "g",
-            "percentOfDailyNeeds": 24.42
-        },
-        {
-            "name": "Cholesterol",
-            "amount": 1.88,
-            "unit": "mg",
-            "percentOfDailyNeeds": 0.63
-        },
-        {
-            "name": "Sodium",
-            "amount": 279.1,
-            "unit": "mg",
-            "percentOfDailyNeeds": 12.13
-        },
-        {
-            "name": "Protein",
-            "amount": 3.79,
-            "unit": "g",
-            "percentOfDailyNeeds": 7.57
-        }
-    ])
-
-    const options2 = {
-        animationEnabled: true,
-        exportEnabled: true,
-        theme: "light1", // "light1", "dark1", "dark2"
-        backgroundColor: "transparent",
-        title: {
-            text: "Nutrition Analysis"
-        },
-        data: [{
-            type: "pie",
-            indexLabel: "{label}: {y}mg",
-            startAngle: -90,
-            dataPoints: Array.from(nutrients.map((n) => ({ y: n.amount, label: n.name })))
-        }]
-    }
-
+    const [comments, setcomments] = useState([])
+    const [comment, setcomment] = useState("")
     const [recipe, setRecipe] = useState({
         "name": "",
         "steps": [
@@ -345,6 +247,17 @@ export default function CommunityRecipeId() {
             const data = await res.json()
             console.log(data)
             setRecipe(data)
+
+            const res2 = await fetch(`${backend_url}/recipe/comment/${id}`,{
+                method:"GET",
+                headers:{
+                    "Content-Type": "application/json",
+                    "auth-token":localStorage.getItem("auth-token")
+                }
+            })
+            const data2 = await res2.json()
+            console.log(data2)
+            setcomments(data2)
         }
         //https://api.spoonacular.com/recipes/{id}/tasteWidget.json
 
@@ -369,6 +282,21 @@ export default function CommunityRecipeId() {
         });
         setTimeout(() => setSpeaking(false), recipe.steps.length * 2000); // Adjust delay as needed
     };
+
+    const handleComment = async () => {
+        const res = await fetch(`${backend_url}/recipe/comment/${id}`,{
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token":localStorage.getItem("auth-token")
+            },
+            body:JSON.stringify({content:comment})
+        })
+        const data = await res.json()
+        console.log(data)
+        setcomments([...comments, data])
+        setcomment("")
+    }
 
     const [activeIndex, setActiveIndex] = useState(-1)
     return (
@@ -411,13 +339,25 @@ export default function CommunityRecipeId() {
                     }):<></>
                 }
             </div>
-            {/* <Button
-                    className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={handleSpeakClick}
-                    disabled={speaking}
-                >
-                    {speaking ? 'Speaking...' : 'Speak Recipe'}
-                </Button> */}
+            <div className="flex flex-col w-full gap-4 py-8">
+                <div className=' flex flex-row w-full '>
+                    <Input grow type={"text"} value={comment} setValue={setcomment} placeholder={"I really enjoyed this dish..."} ></Input>
+                    <Button onClick={()=>{handleComment()}}>Send</Button>
+                </div>
+                <div className=' flex flex-col w-full rounded-md overflow-clip'>
+                {comments.map((comment, index) => {
+                    return (
+                        <>
+                        <div className=' flex w-full py-2 px-3 bg-dorange'>
+                            <h3 className=' text-lg font-medium'>{comment.content}</h3>
+                            <p className=' w-full text-xs font-thin text-end'>{((new Date(comment.createdAt).toLocaleDateString()))}</p>
+                        </div>
+                        <hr className=' w-full'/>
+                        </>
+                    )
+                })}
+                </div>
+            </div>
 
             
         </div>
