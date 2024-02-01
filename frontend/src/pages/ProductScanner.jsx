@@ -29,7 +29,7 @@ const ItemCard = ({allergic, ingredient, index}) => {
 	}
 	useEffect(() => {
 		if(allergic.includes(ingredient)&&ctr===0){
-			// getAlternative()
+			getAlternative()
 			ctr=1
 			}
 	}, [])

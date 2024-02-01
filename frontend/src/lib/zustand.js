@@ -2,7 +2,7 @@ import {create} from "zustand";
 
 const store = create((set) => ({
 	backend_url: "https://nutrino-backend.up.railway.app/api",
-	api: "33010c69192b4e8e8dd9b71d74119fd4",
+	api: "b0fb7836d4864aae85d180a8e8fd6020",
 	message: "",
 	setMessage: (item) => set(() => ({message: item})), // set is a function that takes a function
 	type: "info",

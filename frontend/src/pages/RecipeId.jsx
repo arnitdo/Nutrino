@@ -11,6 +11,7 @@ import { GiSpeaker } from "react-icons/gi";
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+
 export default function RecipeId() {
     const { id } = useParams()
     const { api } = store()
@@ -348,6 +349,7 @@ export default function RecipeId() {
             const res3 = await fetch(`https://api.spoonacular.com/recipes/${id}/nutritionWidget.json?apiKey=${api}`)
             const data3 = await res3.json()
             console.log(data3);
+            setNutrients(data3.nutrients)
 
         }
         //https://api.spoonacular.com/recipes/{id}/tasteWidget.json
