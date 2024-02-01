@@ -392,12 +392,12 @@ export default function CommunityRecipeId() {
                                         {upperStep?upperStep.equipment.length > 0 ?
                                             <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Equipments&nbsp;:</h3>
-                                                <p className='font-normal'>{(Array.from(upperStep.equipment.map((e, ind) => (e.name)))).join(", ")}</p>
+                                                <p className='font-normal'>{upperStep.equipment.join(",")}</p>
                                             </div> : <></>:<></>}
                                         {upperStep?upperStep.ingredients.length > 0 ?
                                             <div className='flex flex-col gap-1 items-start justify-between'>
                                                 <h3 className='text-lg font-bold'>Ingredients&nbsp;:</h3>
-                                                <p className='font-normal'>{(Array.from(upperStep.ingredients.map((e, ind) => (e.name)))).join(", ")}</p>
+                                                <p className='font-normal'>{upperStep.ingredients.join(",")}</p>
                                             </div> : <></>: <></>}
                                         <div className='flex flex-col gap-1 items-start justify-between'>
                                             <h3 className='text-lg font-bold text-nowrap'>Procedure&nbsp;:</h3>
