@@ -12,6 +12,7 @@ export default function LoginPage() {
 	const [password, setpassword] = useState("")
 	const {setToast, setMessage, setAuth, setType, backend_url} = store()
 	const navigate = useNavigate()
+	
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
