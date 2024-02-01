@@ -37,4 +37,4 @@ const noteSchema = new Schema({
     }
   });
   
- export default mongoose.model('testnote',noteSchema);
+ export default mongoose.model('testRecipe',noteSchema);
