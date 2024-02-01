@@ -13,6 +13,8 @@ import Chatbot from "./pages/Chatbot.jsx";
 import ProductScanner from "./pages/ProductScanner.jsx";
 import Community from "./pages/Community.jsx";
 import AuthChecker from "./components/AuthChecker.jsx";
+import CommunityRecipe from "./pages/CommunityRecipe.jsx";
+import CommunityRecipeId from "./pages/CommunityRecipeId.jsx";
 
 function App() {
     return (
@@ -30,6 +32,8 @@ function App() {
 					<Route path={"/recipe/:id"} element={<RecipeId />} />
 					<Route path={"/productscanner"} element={<ProductScanner />} />
 					<Route path={"/community"} element={<Community />} />
+					<Route path={"/community/share"} element={<CommunityRecipe />} />
+					<Route path={"/community/recipe/:id"} element={<CommunityRecipeId />} />
 					<Route path={"/profile"} element={<Profile />} />
 				</Routes>
 				<Footer/>

@@ -12,7 +12,10 @@
   "dependencies": {
     "@canvasjs/charts": "^3.7.36",
     "@canvasjs/react-charts": "^1.0.0",
+    "axios": "^1.6.7",
+    "cloudinary-react": "^1.8.1",
     "react": "^18.2.0",
+    "react-cloudinary-uploader": "^1.1.2",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-responsive": "^9.0.2",
