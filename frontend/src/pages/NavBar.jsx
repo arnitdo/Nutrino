@@ -9,15 +9,15 @@ function NavBar() {
 	return (
 		<div className={"w-screen pr"}>
 			<div className={`border-2 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
-				<div className={"bg-white flex flex-row justify-between"}>
+				<div className={"bg-white flex flex-row justify-center"}>
 					<Link to={"/"}>
 						<img
 							src={NutrinoLogo} alt={"Nutrino Logo"}
 							className={"px-4 h-[80px] hidden lg:block"}
 						/>
 					</Link>
-					<nav className={"gap-4 px-8 flex flex-row flex-grow justify-between items-center font-bold"}>
-						<div className={"px-4 flex flex-grow flex-row justify-between"}>
+					<nav className={"gap-4 px-8 flex flex-row flex-grow justify-center items-center font-bold"}>
+						<div className={"px-4 text-xl font-bold flex flex-grow gap-12 flex-row justify-center"}>
 							<Link to={"/"}>Home</Link>
 							<Link to={"/recipe"}>Recipes</Link>
 							<Link to={"/productscanner"}>Product Scanner</Link>
