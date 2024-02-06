@@ -4,12 +4,7 @@ import store from '../lib/zustand'
 import StepsAccordion from '../components/StepsAccordian'
 import Button from '../components/Button'
 import Paper from '../components/Paper'
-import CanvasJSReact from '@canvasjs/react-charts';
 import { GiSpeaker } from "react-icons/gi";
-//var CanvasJSReact = require('@canvasjs/react-charts');
-
-var CanvasJS = CanvasJSReact.CanvasJS;
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
 export default function RecipeId() {
@@ -416,32 +411,6 @@ export default function RecipeId() {
                         )
                     }):<></>
                 }
-            </div>
-            {/* <Button
-                    className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={handleSpeakClick}
-                    disabled={speaking}
-                >
-                    {speaking ? 'Speaking...' : 'Speak Recipe'}
-                </Button> */}
-
-            <div className='flex w-full flex-row gap-4'>
-                <Paper grow>
-                    <div className={"p-4 bg-dorange"}>
-                        {recipe&&<CanvasJSChart options={options}
-                        /* onRef={ref => this.chart = ref} */
-                        /* containerProps={{ width: '100%', height: '300px' }} */
-                        />}
-                    </div>
-                </Paper>
-                <Paper grow>
-                    <div className={"p-4 bg-dorange"}>
-                        {recipe&&<CanvasJSChart options={options2}
-                        /* onRef={ref => this.chart = ref} */
-                        /* containerProps={{ width: '100%', height: '300px' }} */
-                        />}
-                    </div>
-                </Paper>
             </div>
         </div>
     );

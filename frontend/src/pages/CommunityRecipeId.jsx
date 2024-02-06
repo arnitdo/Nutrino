@@ -3,14 +3,8 @@ import { useLocation, useParams } from 'react-router-dom'
 import store from '../lib/zustand'
 import StepsAccordion from '../components/StepsAccordian'
 import Button from '../components/Button'
-import Paper from '../components/Paper'
-import CanvasJSReact from '@canvasjs/react-charts';
+import Input from '../components/Input.jsx'
 import { GiSpeaker } from "react-icons/gi";
-import Input from '../components/Input'
-//var CanvasJSReact = require('@canvasjs/react-charts');
-
-var CanvasJS = CanvasJSReact.CanvasJS;
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function CommunityRecipeId() {
     const { id } = useParams()
@@ -314,7 +308,7 @@ export default function CommunityRecipeId() {
                 {
                     recipe?recipe.steps.map((upperStep, index) => {
                         return (
-                            <div className={"flex flex-col gap-4"}>
+                            <div key={index} className={"flex flex-col gap-4"}>
                                 {upperStep?<StepsAccordion key={index} question={`Step ${upperStep?upperStep.number:""}`} active={activeIndex === index} setActive={setActiveIndex} index={index}>
                                     <div className={`p-2 flex flex-col ${index % 2 ? "bg-lgreen" : "bg-lorange"}  gap-2 w-full`}>
                                         {upperStep?upperStep.equipment.length > 0 ?
@@ -345,7 +339,7 @@ export default function CommunityRecipeId() {
                     <Button onClick={()=>{handleComment()}}>Send</Button>
                 </div>
                 <div className=' flex flex-col w-full rounded-md overflow-clip'>
-                {comments.map((comment, index) => {
+                {comments.map((comment) => {
                     return (
                         <>
                         <div className=' flex w-full py-2 px-3 bg-dorange'>
