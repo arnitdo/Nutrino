@@ -1,6 +1,8 @@
 14
 ![image](https://res.cloudinary.com/db670bhmc/image/upload/v1707140064/cfdpq4qltpqk71gwcdg6.jpg)
 
+https://github.com/vaxad/Nutrino/assets/78205431/c89965dd-0b63-47f1-8540-39b1ca52c45a
+
 # Nutrino: Your Own Food Assistant
 
 Welcome to Nutrino, your go-to platform for managing allergies and dietary restrictions with ease! Nutrino leverages machine learning to empower users with features like ingredient detection in images, scanning packaged products, sharing allergen-free recipes, and detailed recipe analysis.
